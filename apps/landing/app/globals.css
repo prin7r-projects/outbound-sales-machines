@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --graphite: #0E1014;
+  --steel: #19222B;
+  --rivet: #2A3540;
+  --hairline: #3A4651;
+  --plate: #0B0D11;
+  --bone: #E7E2D7;
+  --chalk: #C2BCAD;
+  --slate: #7E8590;
+  --signal: #F26B1F;
+  --amber: #F4B53F;
+  --verdigris: #3B8E8E;
+  --hot: #FF3B30;
+  --grid-tone: rgba(231, 226, 215, 0.04);
+}
+
+html, body {
+  background: var(--graphite);
+  color: var(--bone);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-image:
+    linear-gradient(var(--grid-tone) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-tone) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+}
+
+/* Selection */
+::selection {
+  background: var(--signal);
+  color: var(--graphite);
+}
+
+/* Display + Mono helpers */
+.font-display { font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif; }
+.font-mono    { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace; }
+
+/* Mono uppercase label — used everywhere as an instrument tag */
+.label {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.label--signal { color: var(--signal); }
+.label--bone { color: var(--bone); }
+
+/* Hairline rule */
+.hr-thin { border-top: 1px solid rgba(231, 226, 215, 0.1); }
+
+/* Buttons — instrument-panel rectangles, no rounded corners */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: var(--signal);
+  color: var(--graphite);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: background 200ms cubic-bezier(0.2, 0.6, 0.2, 1), transform 200ms cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.btn:hover { background: #ff7d35; }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--hairline);
+}
+.btn-ghost:hover { background: var(--steel); border-color: var(--bone); }
+
+.btn-secondary {
+  background: var(--steel);
+  color: var(--bone);
+  border: 1px solid var(--hairline);
+}
+.btn-secondary:hover { background: var(--rivet); }
+
+/* Anchor underline-on-hover */
+a.signal {
+  color: var(--signal);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 200ms ease;
+}
+a.signal:hover { border-bottom-color: var(--signal); }
+
+/* Frame — borders that look like blueprint pages */
+.plate {
+  background: var(--steel);
+  border: 1px solid var(--hairline);
+}
+
+.plate-2 {
+  background: var(--plate);
+  border: 1px solid var(--hairline);
+}
+
+.frame-corners {
+  position: relative;
+}
+.frame-corners::before,
+.frame-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--signal);
+  border-style: solid;
+}
+.frame-corners::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+.frame-corners::after { bottom: -1px; right: -1px; border-width: 0 1.5px 1.5px 0; }
+
+/* Tick / pulse for live indicator */
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--signal);
+  position: relative;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--signal);
+  opacity: 0.5;
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.6); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Type reveal — short, no scroll-jacking */
+.reveal, .reveal-2, .reveal-3 {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: type-reveal 380ms cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+}
+.reveal { animation-delay: 0ms; }
+.reveal-2 { animation-delay: 120ms; }
+.reveal-3 { animation-delay: 240ms; }
+
+@keyframes type-reveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sequence node — used in the blueprint diagram */
+.node {
+  position: relative;
+  background: var(--graphite);
+  border: 1px solid var(--hairline);
+  padding: 14px 16px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--bone);
+  text-align: left;
+}
+.node--signal { border-color: var(--signal); }
+.node--amber { border-color: var(--amber); }
+.node--verdigris { border-color: var(--verdigris); }
+.node--ghost { border-color: var(--hairline); color: var(--slate); }
+
+.node__rivet {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--hairline);
+}
+.node__rivet--tl { top: 4px; left: 4px; }
+.node__rivet--tr { top: 4px; right: 4px; }
+.node__rivet--bl { bottom: 4px; left: 4px; }
+.node__rivet--br { bottom: 4px; right: 4px; }
+
+/* Dotted vertical / horizontal connector */
+.conn-h {
+  border-top: 1.5px dashed var(--hairline);
+}
+.conn-v {
+  border-left: 1.5px dashed var(--hairline);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-2, .reveal-3 {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .pulse-dot::after { animation: none; }
+}

@@ -1,0 +1,25 @@
+# node
+node_modules
+*.log
+*.tsbuildinfo
+
+# next
+.next
+out
+
+# env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+
+# build artifacts
+build
+dist

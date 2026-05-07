@@ -1,0 +1,18 @@
+services:
+  landing:
+    build:
+      context: .
+      dockerfile: Dockerfile.landing
+    image: cadence-landing:latest
+    container_name: cadence-landing
+    restart: unless-stopped
+    env_file:
+      - .env
+    expose:
+      - "3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.outbound-sales-machines.rule=Host(`outbound-sales-machines.prin7r.com`)"
+      - "traefik.http.routers.outbound-sales-machines.entrypoints=websecure"
+      - "traefik.http.routers.outbound-sales-machines.tls.certresolver=letsencrypt"
+      - "traefik.http.services.outbound-sales-machines.loadbalancer.server.port=3000"
