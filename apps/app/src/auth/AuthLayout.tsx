@@ -1,8 +1,7 @@
 export function AuthLayout({ children }: React.PropsWithChildren) {
   return (
-    <div className="flex justify-center">
-      {/* Auth UI has margin-top on title, so we lower the top padding */}
-      <div className="card mt-32 h-fit w-full max-w-md px-8 py-10 pt-4">
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <div className="w-full max-w-md border border-hairline bg-steel p-8">
         {children}
       </div>
     </div>

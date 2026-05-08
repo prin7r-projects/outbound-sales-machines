@@ -4,10 +4,30 @@
 
 @layer components {
   .card {
-    @apply rounded-xl border border-neutral-200 bg-white shadow-sm transition-all duration-200;
+    @apply rounded-none border border-hairline bg-steel transition-all duration-200;
   }
 
   .label {
-    @apply text-sm font-medium text-neutral-700;
+    @apply font-mono text-xs font-medium uppercase tracking-wider text-slate;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-none bg-signal px-4 py-2 text-sm font-semibold text-white hover:bg-signal/90 active:bg-signal/80 transition-colors;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-none border border-hairline bg-transparent px-4 py-2 text-sm font-semibold text-bone hover:bg-plate active:bg-rivet transition-colors;
+  }
+
+  .stat-card {
+    @apply border border-hairline bg-steel p-4;
+  }
+
+  .stat-value {
+    @apply font-mono text-2xl font-bold text-bone;
+  }
+
+  .stat-label {
+    @apply font-mono text-xs uppercase tracking-wider text-slate;
   }
 }

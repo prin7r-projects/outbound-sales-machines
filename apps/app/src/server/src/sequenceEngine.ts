@@ -10,6 +10,7 @@ import {
   isWarmupComplete,
   type WarmupLedgerEntry
 } from './warmupLedger';
+import { circuitBreaker } from './circuitBreaker';
 
 // In-memory tracking (in production, use Redis or DB)
 const activeSequences = new Map<string, any>();
@@ -153,40 +154,25 @@ export class SequenceEngine {
     if (!this.isProcessing) {
       this.processQueue();
     }
-  }
 
-    // Check if step is email channel
-    if (currentStep.channel !== 'EMAIL') {
-      // Skip non-email steps for now (Phase2 is email-only)
-      seqData.currentStepIndex++;
-      await this.processSequence(sequenceId);
-      return;
-    }
-
-    // Get enrollments for this sequence
-    const enrollments = sequence.enrollments || [];
-
-    for (const enrollment of enrollments) {
-      // Check warmup caps before sending
-      const warmupCheck = canSendEmail(domain.warmupDay, domain.emailsSentToday || 0);
-      if (!warmupCheck.allowed) {
-        console.log(`Daily cap reached for domain ${domain.domain}`);
-        break;
+    // Advance to next step after all enrollments are queued
+    seqData.currentStepIndex++;
+    
+    // If more steps remain, schedule them with wait days
+    if (seqData.currentStepIndex < sequence.steps.length) {
+      const nextStep = sequence.steps[seqData.currentStepIndex];
+      const waitMs = (nextStep.waitDays || 0) * 24 * 60 * 60 * 1000;
+      if (waitMs > 0) {
+        console.log(`[SequenceEngine] Scheduling step ${seqData.currentStepIndex + 1} for ${sequence.name} in ${nextStep.waitDays}d`);
+        setTimeout(() => this.processSequence(sequenceId), waitMs);
+      } else {
+        // No wait, process immediately
+        await this.processSequence(sequenceId);
       }
-
-      // Queue email
-      emailQueue.push({
-        enrollment,
-        step: currentStep,
-        sequence,
-        tenant,
-        domain
-      });
-    }
-
-    // Process queue
-    if (!this.isProcessing) {
-      this.processQueue();
+    } else {
+      // Sequence complete
+      activeSequences.delete(sequenceId);
+      console.log(`[SequenceEngine] Sequence ${sequence.name} completed (${sequence.steps.length} steps)`);
     }
   }
 
@@ -218,6 +204,13 @@ export class SequenceEngine {
   private async sendLinkedInMessage(item: any): Promise<void> {
     const { enrollment, step, sequence, tenant, domain } = item;
 
+    // Circuit breaker check
+    const cbCheck = circuitBreaker.isAllowed(domain.id, 'linkedin');
+    if (!cbCheck.allowed) {
+      console.log(`[SequenceEngine] Circuit breaker blocked LinkedIn for ${domain.domain}: ${cbCheck.reason}`);
+      return;
+    }
+
     try {
       const linkedInRequest: LinkedInMessageRequest = {
         campaignId: step.campaignId || tenant.linkedInCampaignId || '',
@@ -241,11 +234,19 @@ export class SequenceEngine {
   private async sendVoiceCall(item: any): Promise<void> {
     const { enrollment, step, sequence, tenant, domain } = item;
 
+    // Circuit breaker check
+    const cbCheck = circuitBreaker.isAllowed(domain.id, 'voice');
+    if (!cbCheck.allowed) {
+      console.log(`[SequenceEngine] Circuit breaker blocked voice for ${domain.domain}: ${cbCheck.reason}`);
+      return;
+    }
+
     try {
       const voiceRequest: VoiceCallRequest = {
         to: enrollment.contactPhone || enrollment.contactId,
         script: step.bodyTemplate || 'Hello, this is a call from our team.',
-        contactId: enrollment.contactId
+        contactId: enrollment.contactId,
+        contactTimezone: enrollment.contactTimezone || 'America/New_York'
       };
 
       const result = await this.voice.makeCall(voiceRequest);
@@ -263,6 +264,13 @@ export class SequenceEngine {
   // Send a single email
   private async sendEmail(item: any): Promise<void> {
     const { enrollment, step, sequence, tenant, domain } = item;
+
+    // Circuit breaker check
+    const cbCheck = circuitBreaker.isAllowed(domain.id, 'email');
+    if (!cbCheck.allowed) {
+      console.log(`[SequenceEngine] Circuit breaker blocked email for ${domain.domain}: ${cbCheck.reason}`);
+      return;
+    }
 
     try {
       const emailRequest: EmailSendRequest = {

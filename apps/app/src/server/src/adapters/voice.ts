@@ -13,6 +13,7 @@ export interface VoiceCallRequest {
   to: string;
   script: string;
   contactId: string;
+  contactTimezone?: string; // e.g. "America/New_York"
   localHourStart?: number; // 9 (9am)
   localHourEnd?: number; // 17 (5pm)
 }
@@ -91,10 +92,12 @@ export class VoiceAdapter {
   // Make a voice call via Twilio
   async makeCall(request: VoiceCallRequest): Promise<VoiceCallResponse> {
     try {
-      // Check local hour gate
-      // Note: In production, you'd get the contact's timezone from their data
-      const contactTimezone = 'America/New_York'; // Default, should come from contact data
-      if (!this.isWithinLocalHours(contactTimezone, 9, 17)) {
+      // Check local hour gate using contact's timezone
+      const contactTimezone = request.contactTimezone || 'America/New_York';
+      const localStart = request.localHourStart ?? 9;
+      const localEnd = request.localHourEnd ?? 17;
+      
+      if (!this.isWithinLocalHours(contactTimezone, localStart, localEnd)) {
         return {
           success: false,
           error: 'Outside local hours (9am-5pm)'

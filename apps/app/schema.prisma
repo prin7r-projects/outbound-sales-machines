@@ -19,6 +19,7 @@ model Tenant {
   sequences       Sequence[]
   icps            ICP[]
   podAssignments  PodAssignment[]
+  circuitBreakerEvents CircuitBreakerEvent[]
 
   @@map("tenants")
 }
@@ -133,11 +134,55 @@ model ICP {
 }
 
 model PodAssignment {
-  id          String   @id @default(uuid())
-  assignedAt  DateTime @default(now())
-  tenantId   String
-  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+  id              String   @id @default(uuid())
+  operatorUserId String?
+  operatorName    String?
+  assignedAt      DateTime @default(now())
+  status          String   @default("ACTIVE")
+  tenantId        String
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  interventions   PodIntervention[]
 
   @@index([tenantId])
+  @@index([status])
   @@map("pod_assignments")
+}
+
+model CircuitBreakerEvent {
+  id          String   @id @default(uuid())
+  tenantId    String
+  domainId    String?
+  channel     String
+  trigger     String
+  threshold   Float
+  actualValue Float
+  action      String
+  resumeAt    DateTime?
+  resolvedAt  DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([tenantId])
+  @@index([domainId])
+  @@index([channel])
+  @@index([createdAt])
+  @@map("circuit_breaker_events")
+}
+
+model PodIntervention {
+  id              String   @id @default(uuid())
+  podAssignmentId String
+  podAssignment   PodAssignment @relation(fields: [podAssignmentId], references: [id])
+  domainId        String?
+  sequenceId      String?
+  type            String
+  priority        String   @default("NORMAL")
+  status          String   @default("OPEN")
+  notes           String?
+  createdAt       DateTime @default(now())
+  resolvedAt      DateTime?
+
+  @@index([podAssignmentId])
+  @@index([status])
+  @@index([priority])
+  @@map("pod_interventions")
 }

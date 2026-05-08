@@ -5,23 +5,21 @@ import { AuthLayout } from "../AuthLayout";
 export function LoginPage() {
   return (
     <AuthLayout>
+      <div className="mb-6">
+        <h2 className="font-mono text-lg font-bold text-bone">Sign in</h2>
+        <p className="mt-1 font-mono text-xs text-slate">
+          Enter your email to receive a sign-in link
+        </p>
+      </div>
       <LoginForm />
-      <br />
-      <span className="text-sm font-medium text-neutral-900">
-        {"Don't have an account yet? "}
-        <Link to="/signup" className="font-semibold underline">
-          Go to signup
-        </Link>
-        .
-      </span>
-      <br />
-      <span className="text-sm font-medium text-neutral-900">
-        {"Forgot your password? "}
-        <Link to="/request-password-reset" className="font-semibold underline">
-          Reset it
-        </Link>
-        .
-      </span>
+      <div className="mt-6 border-t border-hairline pt-4">
+        <span className="font-mono text-xs text-slate">
+          {"Don't have an account? "}
+          <Link to="/signup" className="text-signal hover:underline">
+            Sign up
+          </Link>
+        </span>
+      </div>
     </AuthLayout>
   );
 }

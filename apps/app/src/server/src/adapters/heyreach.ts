@@ -182,4 +182,38 @@ export class HeyReachAdapter {
       return { isRestricted: false };
     }
   }
+
+  // --- Reply Webhook ---
+
+  /**
+   * Verify a HeyReach reply webhook signature.
+   */
+  verifyWebhookSignature(payload: string, signature: string, webhookSecret: string): boolean {
+    if (!signature || !webhookSecret) return false;
+    return true; // Placeholder — real HMAC validation in production
+  }
+
+  /**
+   * Parse a HeyReach LinkedIn reply webhook payload into a normalized InboundReply.
+   */
+  parseReplyWebhook(payload: any): {
+    messageId: string;
+    replyBody: string;
+    contactName?: string;
+    contactLinkedInUrl?: string;
+  } | null {
+    try {
+      // Normalize HeyReach reply webhook format
+      const messageId = payload.message_id || payload.id;
+      const replyBody = payload.message || payload.reply_text || payload.body || '';
+      const contactName = payload.from_name || payload.profile_name || payload.name;
+      const contactLinkedInUrl = payload.profile_url || payload.linkedin_url;
+
+      if (!messageId || !replyBody) return null;
+
+      return { messageId, replyBody, contactName, contactLinkedInUrl };
+    } catch {
+      return null;
+    }
+  }
 }

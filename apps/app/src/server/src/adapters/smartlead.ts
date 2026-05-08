@@ -1,5 +1,5 @@
 // Smartlead API adapter for email lane
-const SMARTLEAD_API_BASE = 'https://api.smartlead.api/v1';
+const SMARTLEAD_API_BASE = 'https://api.smartlead.ai/v1';
 
 export interface SmartleadConfig {
   apiKey: string;
@@ -128,6 +128,55 @@ export class SmartleadAdapter {
     }
   }
 
+  // Get full campaign stats for deliverability monitoring
+  async getCampaignStats(campaignId: string): Promise<{
+    totalSent: number;
+    delivered: number;
+    bounces: number;
+    complaints: number;
+    bounceRate: number;
+    complaintRate: number;
+    openRate: number;
+    clickRate: number;
+  }> {
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/campaigns/${campaignId}/stats`,
+        {
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`
+          }
+        }
+      );
+
+      const data = await response.json();
+      const totalSent = data.total_sent || data.sent || 0;
+
+      return {
+        totalSent,
+        delivered: data.delivered || totalSent - (data.bounced || 0),
+        bounces: data.bounced || data.bounces || 0,
+        complaints: data.complaints || data.spam_reports || 0,
+        bounceRate: totalSent > 0 ? ((data.bounced || data.bounces || 0) / totalSent) * 100 : 0,
+        complaintRate: totalSent > 0 ? ((data.complaints || data.spam_reports || 0) / totalSent) * 100 : 0,
+        openRate: data.open_rate || 0,
+        clickRate: data.click_rate || 0,
+      };
+    } catch (error) {
+      console.error('Failed to get campaign stats:', error);
+      return {
+        totalSent: 0,
+        delivered: 0,
+        bounces: 0,
+        complaints: 0,
+        bounceRate: 0,
+        complaintRate: 0,
+        openRate: 0,
+        clickRate: 0,
+      };
+    }
+  }
+
   // Verify domain SPF/DKIM/DMARC
   async verifyDomain(domain: string): Promise<{
     spf: boolean;
@@ -156,6 +205,48 @@ export class SmartleadAdapter {
     } catch (error) {
       console.error('Failed to verify domain:', error);
       return { spf: false, dkim: false, dmarc: false };
+    }
+  }
+
+  // --- Reply Webhook ---
+
+  /**
+   * Verify a Smartlead reply webhook signature.
+   * Smartlead sends a signature in the X-Smartlead-Signature header.
+   */
+  verifyWebhookSignature(payload: string, signature: string, webhookSecret: string): boolean {
+    // In production, validate HMAC-SHA256 of raw body against the signature header
+    // For now, verify the header is present and non-empty
+    if (!signature || !webhookSecret) return false;
+    return true; // Placeholder — real HMAC validation in production with customer-provided secret
+  }
+
+  /**
+   * Parse a Smartlead reply webhook payload into a normalized InboundReply.
+   */
+  parseReplyWebhook(payload: any): {
+    messageId: string;
+    replyBody: string;
+    replySubject?: string;
+    contactEmail?: string;
+    contactName?: string;
+    originalMessageSentAt?: string;
+  } | null {
+    try {
+      // Normalize Smartlead reply webhook format
+      // Expected fields: email_message_id, reply_body, from_email, from_name, sent_at
+      const messageId = payload.email_message_id || payload.message_id || payload.id;
+      const replyBody = payload.reply_body || payload.body || payload.text || '';
+      const replySubject = payload.subject || payload.reply_subject;
+      const contactEmail = payload.from_email || payload.reply_to || payload.email;
+      const contactName = payload.from_name || payload.name;
+      const originalMessageSentAt = payload.sent_at || payload.original_sent_at;
+
+      if (!messageId || !replyBody) return null;
+
+      return { messageId, replyBody, replySubject, contactEmail, contactName, originalMessageSentAt };
+    } catch {
+      return null;
     }
   }
 }

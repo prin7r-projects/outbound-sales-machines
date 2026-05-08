@@ -4,7 +4,7 @@ app saltrun {
   },
   title: "Saltrun - Outbound Sales Machines",
   head: [
-    "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap\" />",
+    "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap\" />",
     "<link rel=\"icon\" href=\"/favicon.ico\" />",
   ],
   auth: {
@@ -15,7 +15,7 @@ app saltrun {
           name: "Saltrun",
           email: "hello@saltrun.com"
         },
-        userSignupFields: import { userSignupFields } from "@src/auth/userSignupFields",
+        userSignupFields: import { userSignupFields } from "@src/auth/email/userSignupFields",
       },
     },
     onAuthSucceededRedirectTo: "/",
@@ -59,6 +59,7 @@ entity Domain {
   dmarcStatus: String @default("pending"),
   warmupDay: Int @default(0),
   status: Enum { WARMING, HEALTHY, PAUSED, EXPIRING } @default(WARMING),
+  createdAt: DateTime @default(now()),
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID
 }
@@ -89,6 +90,9 @@ entity Enrollment {
   id: UUID @id @default(uuid()),
   contactId: String,
   contactEmail: String,
+  contactLinkedInUrl: String?,
+  contactPhone: String?,
+  contactTimezone: String? @default("America/New_York"),
   status: Enum { ACTIVE, PAUSED, COMPLETED, OPTED_OUT, REPLIED } @default(ACTIVE),
   enrolledAt: DateTime @default(now()),
   sequence: Sequence @relation(link: Sequence.id),
@@ -137,12 +141,27 @@ entity PodAssignment {
 // #region Auth Routes
 route LoginRoute { path: "/login", to: LoginPage }
 page LoginPage {
-  component: import { LoginPage } from "@src/auth/LoginPage.tsx"
+  component: import { LoginPage } from "@src/auth/email/LoginPage.tsx"
 }
 
 route SignupRoute { path: "/signup", to: SignupPage }
 page SignupPage {
-  component: import { SignupPage } from "@src/auth/SignupPage.tsx"
+  component: import { SignupPage } from "@src/auth/email/SignupPage.tsx"
+}
+
+route EmailVerificationRoute { path: "/email-verification", to: EmailVerificationPage }
+page EmailVerificationPage {
+  component: import { EmailVerificationPage } from "@src/auth/email/EmailVerificationPage.tsx"
+}
+
+route RequestPasswordResetRoute { path: "/request-password-reset", to: RequestPasswordResetPage }
+page RequestPasswordResetPage {
+  component: import { RequestPasswordResetPage } from "@src/auth/email/RequestPasswordResetPage.tsx"
+}
+
+route PasswordResetRoute { path: "/password-reset", to: PasswordResetPage }
+page PasswordResetPage {
+  component: import { PasswordResetPage } from "@src/auth/email/PasswordResetPage.tsx"
 }
 // #endregion
 
@@ -164,38 +183,78 @@ page SequencesPage {
   authRequired: true,
   component: import { SequencesPage } from "@src/pages/SequencesPage.tsx"
 }
+
+route SequenceBuilderRoute { path: "/sequences/builder", to: SequenceBuilderPage }
+page SequenceBuilderPage {
+  authRequired: true,
+  component: import { SequenceBuilderPage } from "@src/pages/SequenceBuilderPage.tsx"
+}
 // #endregion
 
 // #region Queries
 query getTenant {
-  fn: import { getTenant } from "@src/server/queries",
+  fn: import { getTenant } from "@src/server/src/queries",
   entities: [Tenant, User, Domain]
 }
 
 query getDomains {
-  fn: import { getDomains } from "@src/server/queries",
+  fn: import { getDomains } from "@src/server/src/queries",
   entities: [Domain]
 }
 
 query getSequences {
-  fn: import { getSequences } from "@src/server/queries",
+  fn: import { getSequences } from "@src/server/src/queries",
   entities: [Sequence, Step]
+}
+
+query getReplies {
+  fn: import { getReplies } from "@src/server/src/queries",
+  entities: [Reply, Message, Enrollment, Sequence]
+}
+// #endregion
+
+// #region API Routes
+api triageWebhook {
+  fn: import { triageReply } from "@src/server/src/triageApi",
+  entities: [Message, Reply, Enrollment],
+  httpRoute: (POST, "/api/internal/replies/triage"),
+  auth: false
 }
 // #endregion
 
 // #region Actions
 action createDomain {
-  fn: import { createDomain } from "@src/server/actions",
-  entities: [Domain]
+  fn: import { createDomain } from "@src/server/src/actions",
+  entities: [Domain, Tenant, User]
 }
 
 action updateDomain {
-  fn: import { updateDomain } from "@src/server/actions",
+  fn: import { updateDomain } from "@src/server/src/actions",
   entities: [Domain]
 }
 
 action createSequence {
-  fn: import { createSequence } from "@src/server/actions",
-  entities: [Sequence, Step]
+  fn: import { createSequence } from "@src/server/src/actions",
+  entities: [Sequence, Step, Tenant, User]
+}
+
+action updateSequence {
+  fn: import { updateSequence } from "@src/server/src/actions",
+  entities: [Sequence, Step, Tenant, User]
+}
+
+action launchSequence {
+  fn: import { launchSequence } from "@src/server/src/actions",
+  entities: [Sequence, Step, Tenant, User]
+}
+
+action pauseSequence {
+  fn: import { pauseSequence } from "@src/server/src/actions",
+  entities: [Sequence, Step, Tenant, User]
+}
+
+action triageReply {
+  fn: import { triageReplyAction } from "@src/server/src/actions",
+  entities: [Message, Reply, Enrollment, Tenant]
 }
 // #endregion
