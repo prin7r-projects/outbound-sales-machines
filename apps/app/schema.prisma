@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -7,36 +7,137 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Use Prisma Schema file to define your entities: https://www.prisma.io/docs/concepts/components/prisma-schema.
-// Run `wasp db migrate-dev` in the CLI to create the database tables,
-// then run `wasp db studio` to open Prisma Studio and view your db models.
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  plan      String   @default("SELF_SERVE")
+  crm       String   @default("NONE")
+  createdAt DateTime @default(now())
+
+  users           User[]
+  domains         Domain[]
+  sequences       Sequence[]
+  icps            ICP[]
+  podAssignments  PodAssignment[]
+
+  @@map("tenants")
+}
+
 model User {
-  id       String @id @default(uuid())
-  username String
+  id        String   @id @default(uuid())
+  email     String   @unique
+  isAdmin   Boolean  @default(false)
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
 
-  tasks Task[]
-  tags  Tag[]
+  @@index([tenantId])
+  @@map("users")
 }
 
-model Task {
+model Domain {
   id          String   @id @default(uuid())
-  description String
-  isDone      Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  domain      String
+  spfStatus  String   @default("pending")
+  dkimStatus String   @default("pending")
+  dmarcStatus String  @default("pending")
+  warmupDay  Int      @default(0)
+  status      String   @default("WARMING")
+  createdAt  DateTime @default(now())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id])
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  tags Tag[]
+  @@index([tenantId])
+  @@map("domains")
 }
 
-model Tag {
-  id    String @id @default(uuid())
-  name  String @unique
-  color String
+model Sequence {
+  id        String   @id @default(uuid())
+  name      String
+  version   Int      @default(1)
+  status    String   @default("DRAFT")
+  spec      String?  // JSON stored as String
+  tenantId String
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  steps     Step[]
+  enrollments Enrollment[]
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  @@index([tenantId])
+  @@map("sequences")
+}
 
-  tasks Task[]
+model Step {
+  id          String   @id @default(uuid())
+  idx         Int
+  channel     String
+  waitDays    Int
+  bodyTemplate String?
+  sequenceId String
+  sequence    Sequence @relation(fields: [sequenceId], references: [id])
+
+  @@index([sequenceId])
+  @@map("steps")
+}
+
+model Enrollment {
+  id            String   @id @default(uuid())
+  contactId     String
+  contactEmail  String
+  status        String   @default("ACTIVE")
+  enrolledAt    DateTime @default(now())
+  sequenceId   String
+  sequence     Sequence @relation(fields: [sequenceId], references: [id])
+  messages     Message[]
+
+  @@index([sequenceId])
+  @@map("enrollments")
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  channel     String
+  status      String   @default("QUEUED")
+  sentAt      DateTime?
+  enrollmentId String
+  enrollment  Enrollment @relation(fields: [enrollmentId], references: [id])
+  stepId      String
+  step        Step      @relation(fields: [stepId], references: [id])
+  replies     Reply[]
+
+  @@index([enrollmentId])
+  @@index([stepId])
+  @@map("messages")
+}
+
+model Reply {
+  id          String   @id @default(uuid())
+  body        String
+  bucket      String
+  receivedAt  DateTime @default(now())
+  messageId   String
+  message     Message   @relation(fields: [messageId], references: [id])
+
+  @@index([messageId])
+  @@map("replies")
+}
+
+model ICP {
+  id            String   @id @default(uuid())
+  source        String
+  contactCount  Int
+  importedAt   DateTime @default(now())
+  tenantId     String
+  tenant       Tenant    @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("icps")
+}
+
+model PodAssignment {
+  id          String   @id @default(uuid())
+  assignedAt  DateTime @default(now())
+  tenantId   String
+  tenant     Tenant    @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("pod_assignments")
 }
