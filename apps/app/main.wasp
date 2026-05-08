@@ -189,6 +189,12 @@ page SequenceBuilderPage {
   authRequired: true,
   component: import { SequenceBuilderPage } from "@src/pages/SequenceBuilderPage.tsx"
 }
+
+route PodQueueRoute { path: "/pod-queue", to: PodQueuePage }
+page PodQueuePage {
+  authRequired: true,
+  component: import { PodQueuePage } from "@src/pages/PodQueuePage.tsx"
+}
 // #endregion
 
 // #region Queries
@@ -219,6 +225,55 @@ api triageWebhook {
   entities: [Message, Reply, Enrollment],
   httpRoute: (POST, "/api/internal/replies/triage"),
   auth: false
+}
+
+api circuitAction {
+  fn: import { circuitAction } from "@src/server/src/circuitApi",
+  entities: [Domain, Tenant],
+  httpRoute: (POST, "/api/internal/circuit/email/:domain"),
+  auth: false
+}
+
+api circuitStatus {
+  fn: import { circuitStatus } from "@src/server/src/circuitApi",
+  entities: [Domain, Tenant],
+  httpRoute: (GET, "/api/internal/circuit/email/:domain"),
+  auth: false
+}
+
+api getPodQueue {
+  fn: import { getPodQueue } from "@src/server/src/podQueueApi",
+  entities: [PodAssignment, Tenant],
+  httpRoute: (GET, "/api/pod/queue"),
+  auth: true
+}
+
+api getPodAssignments {
+  fn: import { getPodAssignments } from "@src/server/src/podQueueApi",
+  entities: [PodAssignment, Tenant],
+  httpRoute: (GET, "/api/pod/assignments"),
+  auth: true
+}
+
+api getPodOperators {
+  fn: import { getPodOperators } from "@src/server/src/podQueueApi",
+  entities: [PodAssignment],
+  httpRoute: (GET, "/api/pod/operators"),
+  auth: true
+}
+
+api createPodIntervention {
+  fn: import { createPodIntervention } from "@src/server/src/podQueueApi",
+  entities: [PodAssignment, Tenant],
+  httpRoute: (POST, "/api/pod/interventions"),
+  auth: true
+}
+
+api updatePodIntervention {
+  fn: import { updatePodIntervention } from "@src/server/src/podQueueApi",
+  entities: [PodAssignment],
+  httpRoute: (PATCH, "/api/pod/interventions/:id"),
+  auth: true
 }
 // #endregion
 

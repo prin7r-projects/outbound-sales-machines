@@ -310,6 +310,26 @@ export class PodQueue {
 
     return escalated;
   }
+
+  // Set intervention createdAt (for testing)
+  setInterventionCreatedAt(interventionId: string, createdAt: Date): boolean {
+    const intervention = interventions.get(interventionId);
+    if (!intervention) return false;
+    intervention.createdAt = createdAt;
+    interventions.set(interventionId, intervention);
+    return true;
+  }
+
+  // Reset all state (for testing)
+  reset(): void {
+    operators.clear();
+    assignments.clear();
+    interventions.clear();
+    // Re-initialize default operators
+    for (const op of DEFAULT_OPERATORS) {
+      operators.set(op.id, { ...op, currentTenants: 0 });
+    }
+  }
 }
 
 export const podQueue = new PodQueue();

@@ -25,6 +25,7 @@ export type CircuitBreakerAction = 'pause_domain' | 'pause_channel' | 'pause_ten
 
 export interface CircuitBreakerState {
   domainId: string;
+  tenantId: string;
   channel: CircuitBreakerChannel;
   isTripped: boolean;
   trigger?: CircuitBreakerTrigger;
@@ -125,6 +126,18 @@ export class CircuitBreaker {
       isRestricted?: boolean;
     }
   ): CircuitBreakerEvent | null {
+    // Store tenant-domain mapping for future lookups
+    const domainKey = `${domainId}:${channel}`;
+    const existingState = domainStates.get(domainKey);
+    if (!existingState) {
+      domainStates.set(domainKey, {
+        domainId,
+        tenantId,
+        channel,
+        isTripped: false,
+      });
+    }
+
     // Check bounce rate
     if (metrics.bounceRate !== undefined && metrics.bounceRate > this.config.bounceRateThreshold) {
       return this.tripBreaker(tenantId, domainId, channel, {
@@ -181,6 +194,7 @@ export class CircuitBreaker {
     // Update domain state
     domainStates.set(domainKey, {
       domainId,
+      tenantId,
       channel,
       isTripped: true,
       trigger: params.trigger,
@@ -325,7 +339,7 @@ export class CircuitBreaker {
   getTrippedBreakers(tenantId: string): CircuitBreakerState[] {
     const tripped: CircuitBreakerState[] = [];
     for (const [key, state] of domainStates.entries()) {
-      if (key.startsWith(tenantId) && state.isTripped) {
+      if (state.tenantId === tenantId && state.isTripped) {
         tripped.push(state);
       }
     }
@@ -347,10 +361,22 @@ export class CircuitBreaker {
 
   // Helper: get tenant for domain (in production, would query DB)
   private getTenantForDomain(domainId: string): string | undefined {
-    // Extract tenant from domainId pattern or look up in state
-    // For in-memory, we check event log
+    // First check domainStates (faster)
+    for (const [key, state] of domainStates.entries()) {
+      if (state.domainId === domainId) {
+        return state.tenantId;
+      }
+    }
+    // Fallback to event log
     const event = eventLog.find(e => e.domainId === domainId);
     return event?.tenantId;
+  }
+
+  // Reset all state (for testing)
+  reset(): void {
+    domainStates.clear();
+    tenantStates.clear();
+    eventLog.length = 0;
   }
 }
 
