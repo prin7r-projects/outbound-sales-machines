@@ -18,6 +18,8 @@ The visual identity is sourced from [`docs/01-brand-identity.md`](docs/01-brand-
 
 The landing is written for Mira and Theo. Voice is throughput-obsessed, instrumented, anti-fluff — operator-built, not marketing.
 
+**Wave 2 redesign archetype lock (2026-05-08).** The landing has committed fully to the **Tactical Telemetry / CRT Terminal** archetype from the Industrial Brutalism canon. We do not alternate with Swiss Industrial Print; the substrate is dark (`graphite #0E1014` with a `plate #08090C` recessed surface) and stays dark across every section. The frame language reads as a control-room readout: a persistent SYS ticker above the masthead, ASCII bracket framing on every "instrument panel" plate, hairline SVG linework in the sequence blueprint, monospaced dense rows in the reply triage stream, and a phosphor-green LIVE accent reserved for in-band liveness signals (the SYS dot and the triage stream cursor). Aviation-orange (`signal #F26B1F`) remains the single high-saturation accent for primary CTAs, eyebrows, and the throughput delta arrows. We do not use the brutalist red (`#E61919`) — the brand's safety-orange is the equivalent role and we will not split it.
+
 ## 2. Visual positioning
 
 A throughput readout dressed as an industrial control panel.
@@ -39,40 +41,54 @@ A throughput readout dressed as an industrial control panel.
 
 ## 4. Color tokens
 
-Single source of truth: `apps/landing/tailwind.config.ts` and `apps/landing/app/globals.css`. Twelve-token industrial palette; intentionally not a SaaS-dashboard palette.
+Single source of truth: `apps/landing/tailwind.config.ts` and `apps/landing/app/globals.css`. Thirteen-token tactical-telemetry palette; intentionally not a SaaS-dashboard palette.
 
 | Role | Token | Hex | Used for |
 |------|-------|-----|---------|
 | Surface (default) | `graphite` | `#0E1014` | Page background — deep instrument-panel near-black |
-| Surface (raised) | `steel` | `#19222B` | Cards, plates, instrument frames |
-| Surface (recessed) | `plate` | `#0B0D11` | Schematic backgrounds, code panels |
-| Border (default) | `hairline` | `#3A4651` | Hairline borders, dotted connectors |
-| Border (deep) | `rivet` | `#2A3540` | Card inner shadows, recessed plates |
+| Surface (raised) | `steel` | `#161E26` | Cards, plates, instrument frames (slightly cooler/darker than v1) |
+| Surface (recessed) | `plate` | `#08090C` | Schematic backgrounds, code panels, ticker bar (deeper than v1) |
+| Border (default) | `hairline` | `#2E3A45` | Hairline borders, dotted connectors |
+| Border (bright) | `hairline-bright` | `#4A5664` | ASCII bracket frames, ruler ticks, telemetry cell dividers |
+| Border (deep) | `rivet` | `#232C36` | Card inner edges, recessed plates |
 | Text (primary) | `bone` | `#E7E2D7` | Body type, primary headings (warm-toned light) |
-| Text (secondary) | `chalk` | `#C2BCAD` | Secondary body, muted prose |
-| Text (tertiary) | `slate` | `#7E8590` | Captions, metadata, mono labels |
-| Accent (primary) | `signal` | `#F26B1F` | Safety-orange — every CTA, every accent rule, "live" indicator |
-| Accent (secondary) | `amber` | `#F4B53F` | LinkedIn lane in the schematic, secondary highlights |
+| Text (secondary) | `chalk` | `#B6B0A1` | Secondary body, muted prose |
+| Text (tertiary) | `slate` | `#6E7682` | Captions, metadata, mono labels (cooler than v1 — sits closer to terminal-readout grey) |
+| Accent (primary) | `signal` | `#F26B1F` | Safety-orange — every CTA, every accent rule, throughput-delta downward arrow (cost-down is a positive event, rendered in safety-orange) |
+| Accent (secondary) | `amber` | `#F4B53F` | LinkedIn lane in the schematic, OBJECTION classify dot |
 | Accent (tertiary) | `verdigris` | `#3B8E8E` | Voice lane in the schematic, restful contrast |
+| Accent (liveness) | `phosphor` | `#4AF626` | **Reserved.** Used only for in-band liveness signals: the SYS-ticker pulse dot label, the LIVE telemetry tag, the triage-stream blinking cursor, the upward delta on the reply-rate cell. **Never** used as general body text or as a button background. |
 | Accent (alert) | `hot` | `#FF3B30` | Hard-no replies in triage, error states |
 
-**Contrast.** Foreground/background pairs meet WCAG AA: bone-on-graphite ~14.6:1, chalk-on-graphite ~10.1:1, slate-on-graphite ~5.0:1, signal-on-graphite ~5.6:1 (used at ≥14px), bone-on-steel ~10.4:1.
+**Contrast.** Foreground/background pairs meet WCAG AA: bone-on-graphite ~14.6:1, chalk-on-graphite ~9.4:1, slate-on-graphite ~4.9:1, signal-on-graphite ~5.6:1 (used at ≥14px), phosphor-on-plate ~13.1:1, bone-on-steel ~11.1:1.
 
-**Forbidden combinations.** `slate` on `plate` (too low contrast at small sizes), `signal` text on `amber` background, `hot` on `verdigris` (color-blind unfriendly).
+**Forbidden combinations.** `slate` on `plate` (too low contrast at small sizes), `signal` text on `amber` background, `hot` on `verdigris` (color-blind unfriendly), `phosphor` as primary text or button fill (it is a status pigment, not a copy pigment).
+
+**Atmosphere — three engineered layers (added in Wave 2 redesign).**
+
+1. **Blueprint grid** — `48px × 48px` linear-gradient at `rgba(231, 226, 215, 0.035)` on `body`, fixed offset, finer than the v1 `56px / 4%` grid so the page reads as engineering vellum rather than a wireframe.
+2. **CRT scanline overlay** — `body::before` fixed full-viewport `repeating-linear-gradient` (3px-tall horizontal bands, ~6% black, `mix-blend-mode: multiply`). Pointer-events none, `z-index: 60`. No GPU repaint cost — it is fixed and never scrolls.
+3. **Mechanical noise grain** — `body::after` fixed full-viewport SVG `feTurbulence` data-URI at `opacity: 0.045`. Pointer-events none, `z-index: 61`. Single static layer, no animation, ~2KB inline.
+
+These three layers are the entire "atmosphere stack." They are deliberately fixed (not on scrolling containers) per the brutalist skill performance guard. Reduced-motion preference does not affect them — they are static textures, not animations.
 
 ## 5. Typography
 
-Three families. No fourth font.
+Three families. No fourth font. **Inter is BANNED in the Wave 2 redesign** — replaced with IBM Plex Sans for body and IBM Plex Mono for mono labels. The Plex family is purpose-built for technical interfaces (IBM's tooling family) and pairs cleaner with Space Grotesk than Inter ever did, while removing the v1's "default-AI-stack" tell.
 
 | Role | Family | Weights | Used at | Reason |
 |------|--------|---------|---------|--------|
-| Display | **Space Grotesk** | 400, 500, 700 | Hero 48-100px, sections 36-52px, throughput readouts 30-48px | Geometric sans with mechanical character (squared `s`, geometric `g`); CAD-adjacent without becoming cartoonish. |
-| Body | **Inter** | 400, 500, 600, 700 | Body 14-22px, UI 14px | Neutral high-legibility; pairs cleanly with Space Grotesk. |
-| Mono | **JetBrains Mono** | 400, 500, 700 | Labels 10-12px caps, throughput numerals, button text, schematic node copy | The brand's tell: the mono used by SREs, used here as a *label font* — signals "operators built this." |
+| Display | **Space Grotesk** | 400, 500, 700 | Hero 48-100px, sections 36-52px, throughput readouts 44px | Geometric sans with mechanical character (squared `s`, geometric `g`); CAD-adjacent without becoming cartoonish. SS03/SS06 OpenType features enabled for technical alternates. |
+| Body | **IBM Plex Sans** | 400, 500, 600, 700 | Body 13-21px, UI 13-15px | IBM's tooling-family sans. Tighter aperture and squarer terminals than Inter; reads as a tooling typeface, not a SaaS one. SS01/SS02 + tabular-nums + slashed-zero enabled at the `html` level. |
+| Mono | **IBM Plex Mono** + **JetBrains Mono** fallback | 400, 500, 600, 700 | Labels 10-12px caps, throughput numerals, button text, schematic node copy, ticker bar, triage stream rows | Plex Mono is the primary mono; JetBrains Mono kept as a fallback for any host that has it cached. Both use tabular-nums + slashed-zero so column alignment never drifts. The mono is the brand's tell — every label, button, table cell, and connector annotation. |
 
-Loaded from Google Fonts in `globals.css` with `display=swap`. The pairing rationale is in [`docs/01-brand-identity.md`](docs/01-brand-identity.md): geometric display + neutral sans body + SRE-mono labels is the industrial-tooling pairing (cf. Klaviyo, Mercury, Cloudflare's tooling pages). Deliberately *not* the all-Inter SaaS-dashboard aesthetic.
+**Stack declaration.** Body: `"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif`. Mono: `"IBM Plex Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace`. All three loaded from Google Fonts in `globals.css` with `display=swap`. **Inter is not loaded** — and not present in any class or fallback list.
 
-**Type scale (display).** 18 / 22 / 26 / 30 / 36 / 40 / 44 / 52 / 64 / 80 / 100 px. **Body scale.** 11 / 12 / 13 / 14 / 15 / 17 / 19 / 22 px. **Letter-spacing.** Display tightens by `-0.02em`; mono labels open to `0.16-0.18em` for caps.
+**Type scale (display).** 18 / 22 / 26 / 30 / 36 / 40 / 44 / 52 / 64 / 80 / 100 px. **Body scale.** 11 / 12 / 13 / 14 / 15 / 17 / 19 / 21 px. **Letter-spacing.** Display tightens by `-0.03em` (was `-0.02em`); mono labels open to `0.14-0.18em` for caps; nav and column headers sit at `0.16em`.
+
+**OpenType features.** `font-feature-settings: "ss01", "ss02", "tnum", "zero"` is set on `html, body` so that all numeric readouts on the page (telemetry ribbon, sparklines, deltas, triage timestamps, pricing prices, deliverability stats) align in tabular columns and use slashed zero. The `.tnum` utility class is available for explicit tabular-nums on display-font numerals.
+
+**ASCII / bracket motif.** The mono is also load-bearing for the framing language: `[ THROUGHPUT READOUT ]`, `[ DELIVERABILITY CHECKLIST ]`, `[ TRIAGE.STREAM ]`, `>>> LAT 40.7128°N` etc. Bracket pairs are entered as literal `[ ` and ` ]` characters (not inline SVG) so they live inline with the mono baseline. This is the brutalist skill's syntax-decoration rule expressed in the brand mono.
 
 ## 6. Spacing, radius, shadows, and borders
 
@@ -199,3 +215,4 @@ Capture script: `scripts/capture-landing-screenshots.mjs` (Playwright Chromium, 
 | Date | Change | Reviewer |
 |------|--------|----------|
 | 2026-05-08 | Wave 2 build — DESIGN.md created with all 15 sections; landing shipped (9 sections); NOWPayments crypto checkout integration (`/api/checkout/nowpayments` route + Pricing CTAs + IPN webhook with HMAC-SHA512); 10 strategy/design docs published; pitch-deck.html shipped; brand identity locked (Cadence — graphite + signal-orange industrial blueprint). | Wave 2 build agent |
+| 2026-05-08 | **Wave 2 redesign — tactical-telemetry / CRT-terminal commit.** Inter banned and replaced with **IBM Plex Sans** (body) + **IBM Plex Mono** (labels/numerals); Space Grotesk display retained. New atmosphere stack: 48px blueprint grid, fixed CRT scanline overlay, fixed SVG noise grain (all pointer-events none, never on scrolling containers). New tokens: `phosphor #4AF626` (reserved for liveness only), `hairline-bright #4A5664` (ASCII bracket frames + ruler ticks). Steel/plate/hairline/chalk/slate retoned cooler/darker per the dark-canvas brutalist commit. **Hero throughput readout** rebuilt as a real telemetry dashboard ribbon: 4 cells with sparklines, deltas, status tags (`LIVE`/`OK`), ASCII bracket frame, drawing-sheet header (`RUN.0428.ICP-VC.SeriesA / COHORT N=27`), coordinate footer (`>>> LAT 40.7128°N · LON 74.0060°W`). **Sequence blueprint** rebuilt as actual blueprint linework: drawing-sheet title block (DRAWING NO / SCALE / REV), left-edge ruler with stage markers (01-04), inline SVG hairline connectors with crosshair markers and dimension ticks, drawing-sheet footer (DRAWN / CHECKED / UNIT / SHEET), grid lines via `gap-px` over `bg-hairline` for razor-thin dividing rules. **Reply triage** rebuilt as a CRT/HUD list view: phosphor-green stream-cursor, dense monospace rows with ID / T+ / classify-dot / from-subject / action columns, divide-y hairlines, mobile fallback to stacked cards. New components: `SystemTicker` (persistent runtime band above masthead with scrolling status data), `TelemetryRibbon` + `TelemetryCell`, `BlueprintConnector` (SVG-drawn branch connectors), `TriageRow` (CRT row), `.brackets-4` (ASCII corner brackets utility). | Wave 2 redesign agent |
