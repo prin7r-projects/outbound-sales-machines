@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * [CADENCE_SCREENSHOT] Capture landing-desktop.png and landing-mobile.png
+ * [SALTRUN_SCREENSHOT] Capture landing-desktop.png and landing-mobile.png
  * from the live deploy.
  *
  * Usage:
@@ -34,7 +34,7 @@ try {
       deviceScaleFactor: target.deviceScaleFactor
     });
     const page = await ctx.newPage();
-    console.log(`[CADENCE_SCREENSHOT] ${URL} -> ${target.name}.png (${target.viewport.width}x${target.viewport.height})`);
+    console.log(`[SALTRUN_SCREENSHOT] ${URL} -> ${target.name}.png (${target.viewport.width}x${target.viewport.height})`);
     await page.goto(URL, { waitUntil: "networkidle", timeout: 60_000 });
     // Let webfonts settle
     await page.waitForTimeout(1500);
@@ -44,4 +44,4 @@ try {
 } finally {
   await browser.close();
 }
-console.log(`[CADENCE_SCREENSHOT] saved to ${OUT_DIR}`);
+console.log(`[SALTRUN_SCREENSHOT] saved to ${OUT_DIR}`);

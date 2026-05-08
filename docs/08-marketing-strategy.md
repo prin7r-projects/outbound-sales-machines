@@ -5,11 +5,11 @@
 ## Positioning
 
 **Statement.**
-> For RevOps and GTM operators running outbound at scale, Cadence is a managed outbound machine that wires email, LinkedIn, and voice into a single sequence with deliverability and reply triage built in — unlike Apollo / Outreach / Salesloft, because the deliverability layer and the human SDR pod are part of the product, not the customer's homework.
+> For RevOps and GTM operators running outbound at scale, Saltrun is a managed outbound machine that wires email, LinkedIn, and voice into a single sequence with deliverability and reply triage built in — unlike Apollo / Outreach / Salesloft, because the deliverability layer and the human SDR pod are part of the product, not the customer's homework.
 
 **Category.** Multi-channel outbound, but reframed as "outbound infrastructure" — so the buyer's mental model is closer to "Cloudflare for outbound" than "an Apollo competitor."
 
-**Why "infrastructure"?** Apollo / Outreach are tools that ship customers a sequence builder and call deliverability the customer's problem. Cadence treats deliverability as the product. The brand frame ("a throughput problem", "98.7% inbox placement, audited weekly", "domains are a finite resource") is the infrastructure framing.
+**Why "infrastructure"?** Apollo / Outreach are tools that ship customers a sequence builder and call deliverability the customer's problem. Saltrun treats deliverability as the product. The brand frame ("a throughput problem", "98.7% inbox placement, audited weekly", "domains are a finite resource") is the infrastructure framing.
 
 ## Messaging hierarchy
 
@@ -54,7 +54,7 @@ Examples:
 Posts about what we won't do and why. Audience: both, especially anti-personas (filters them out). Frequency: 1 post/month.
 
 Examples:
-- "Why we don't sell Cadence to growth hackers."
+- "Why we don't sell Saltrun to growth hackers."
 - "We don't have a free trial. Here's why."
 - "We turned down a $48k/year contract this week. Here's what happened."
 
@@ -63,7 +63,7 @@ Long-form interviews with RevOps leads about their actual outbound stack. Audien
 
 Examples:
 - "How RevOps at [Series C SaaS] runs a 12-SDR outbound team."
-- "From Apollo to Smartlead to Cadence: a deliverability post-mortem."
+- "From Apollo to Smartlead to Saltrun: a deliverability post-mortem."
 
 ## Content distribution
 
@@ -71,7 +71,7 @@ Examples:
 |--------|---------|-----------|
 | LinkedIn posts (operator voice) | LinkedIn organic | 1, 2, 3 |
 | Podcast appearances (founder voice) | Outboundsquad / 30MPC / RevOps Co-op / RevGenius | 1, 2 |
-| Long-form essays | Cadence blog (under `apps/landing/blog/`, future wave) | 1, 2, 4 |
+| Long-form essays | Saltrun blog (under `apps/landing/blog/`, future wave) | 1, 2, 4 |
 | YouTube screencasts (operator voice, 5-12 min) | YouTube + LinkedIn | 1, 2 |
 | Newsletters (third-party features) | Lenny's Newsletter, RevOps Co-op weekly, Pavilion News | 2, 4 |
 

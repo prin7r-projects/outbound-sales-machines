@@ -1,6 +1,6 @@
-# DESIGN.md — Cadence
+# DESIGN.md — Saltrun
 
-> Canonical design + style guide for `outbound-sales-machines` (brand: **Cadence**).
+> Canonical design + style guide for `outbound-sales-machines` (brand: **Saltrun**).
 > Owned by Chief of Design. Kept in sync with `apps/landing/` — any landing-page change updates this file in the same commit.
 
 The visual identity is sourced from [`docs/01-brand-identity.md`](docs/01-brand-identity.md). This document is the implementation-facing translation of that identity into tokens, components, layout rules, and verification artifacts.
@@ -9,7 +9,7 @@ The visual identity is sourced from [`docs/01-brand-identity.md`](docs/01-brand-
 
 ## 1. Product and audience
 
-**Product** — Cadence is a multi-channel outbound sales machine. Email, LinkedIn, and voice run as one sequence, with deliverability infrastructure and reply triage built into the product. Sold in three tiers: Self-serve PLG ($490/mo/seat), Managed (sales-led, $4,900/mo + $80/qualified meeting), Enterprise (procurement-gated, from $24,990/quarter). The product is the audit trail — the deliverability ledger and reply rate per ICP segment.
+**Product** — Saltrun is a multi-channel outbound sales machine. Email, LinkedIn, and voice run as one sequence, with deliverability infrastructure and reply triage built into the product. Sold in three tiers: Self-serve PLG ($490/mo/seat), Managed (sales-led, $4,900/mo + $80/qualified meeting), Enterprise (procurement-gated, from $24,990/quarter). The product is the audit trail — the deliverability ledger and reply rate per ICP segment.
 
 **Audience** —
 - **Mira, the RevOps lead**: 30-42, Series B+ B2B SaaS, owns 5-15 SDRs. Reads SQL, knows what DKIM is. Frustrated by domain reputation tanking after vendor changes and the 12-tab Frankenstack. Buying triggers: new CRO, deliverability incident, vendor RFP cycle.
@@ -130,13 +130,13 @@ All components are local (in `apps/landing/app/page.tsx`) until shadcn primitive
 | `PricingCta` | `app/pricing-cta.tsx` (client) | NOWPayments hosted-invoice trigger. POSTs to `/api/checkout/nowpayments`, redirects on success, surfaces a fallback message + mailto if 503/upstream error. |
 | `Pricing tier card` | `page.tsx` | Plate with label + 40px Bold price + JetBrains Mono cadence + 2px signal rule + bullet list + full-width CTA at bottom. Highlighted tier swaps to signal border. |
 
-**Accessibility for each.** Buttons inherit native focus ring (always visible at 2px signal offset 3px); the masthead `Logo` carries `aria-label="Cadence"`; SVG icons (`Arrow`, `Logo`) use `aria-hidden`; nav anchors are real `<a>` elements via `next/link`. Keyboard tab order: hero CTAs → masthead nav → channel matrix CTAs → pricing CTAs → footer links.
+**Accessibility for each.** Buttons inherit native focus ring (always visible at 2px signal offset 3px); the masthead `Logo` carries `aria-label="Saltrun"`; SVG icons (`Arrow`, `Logo`) use `aria-hidden`; nav anchors are real `<a>` elements via `next/link`. Keyboard tab order: hero CTAs → masthead nav → channel matrix CTAs → pricing CTAs → footer links.
 
 ## 9. Landing page structure
 
 `apps/landing/app/page.tsx` renders nine sections in order:
 
-1. **Masthead** — Cadence logo + `/ Outbound Machines` mono subtitle + nav (`Channels / Blueprint / Deliverability / Pricing / Start a run`).
+1. **Masthead** — Saltrun logo + `/ Outbound Machines` mono subtitle + nav (`Channels / Blueprint / Deliverability / Pricing / Start a run`).
 2. **Hero** — Pulse-dot kicker (`RUN.LIVE — Q2 2026 // Build #02-08`), 48-100px display headline (`Outbound is a throughput problem.`), 22px chalk lede, two CTAs (`Start a run` solid / `See the blueprint` ghost), throughput-readout instrument panel (4 KPIs), trust band (Smartlead / Instantly / HeyReach / Synthflow as rails).
 3. **Channel matrix** — 3-column plate grid (Email / LinkedIn / Voice) with stat per channel.
 4. **Sequence-as-blueprint** — directed-graph schematic with 4 stages (ICP → Execute → Reply Gate → Outcome), connectors between stages, framed in an instrument-panel plate-2 with rev-mark in the header.
@@ -175,7 +175,7 @@ The landing intentionally ships **no raster imagery** — the visual identity is
 - **WCAG target** — AA. AAA where the type scale already gets us there (display bone-on-graphite).
 - **Color contrast** — verified for every foreground/background pair in section 4.
 - **Keyboard** — Tab cycles cleanly through hero CTAs → masthead nav → pricing CTAs → footer links. Focus is visible everywhere (explicit signal-orange ring on buttons; native default ring on links).
-- **Alt text** — `Logo` is wrapped with `aria-label="Cadence"`; the `Arrow` glyph and the inline schematic SVG are `aria-hidden`. The `PlacementChart` bars carry `aria-label` per bar (e.g. `aria-label="Wk-6: 98.7% inbox placement"`). Decorative SVGs use `aria-hidden`.
+- **Alt text** — `Logo` is wrapped with `aria-label="Saltrun"`; the `Arrow` glyph and the inline schematic SVG are `aria-hidden`. The `PlacementChart` bars carry `aria-label` per bar (e.g. `aria-label="Wk-6: 98.7% inbox placement"`). Decorative SVGs use `aria-hidden`.
 - **Semantics** — `header > nav`, `main`, `section[id]` for in-page anchors, `footer`. Real `<a>` (via `next/link`), real `<h1>` / `<h2>` / `<h3>` hierarchy with no skipped levels.
 - **Real copy** — no Lorem ipsum; no `TODO` strings; every quoted figure (6.4% / 98.7% / 14.2k / $4.20 / 0.34% / 0.04% / 32.1% / 11.4% / 92.4% / 95.1% / 96.8% / 97.9% / 98.4% / 98.7%) traces to the cohort definition in `docs/02-architecture.md` and the throughput readout policy in `docs/08-marketing-strategy.md`. The pricing numbers ($490 / $4,900 / $24,990 / $80) trace to `docs/07-sales-strategy.md`.
 - **Production checks** — `curl -sI https://outbound-sales-machines.prin7r.com` returns HTTP/2 200 with valid Let's Encrypt cert; static HTML contains hero copy without client-side hydration.
@@ -191,9 +191,9 @@ Captured from the live deploy at `https://outbound-sales-machines.prin7r.com` vi
 | Landing — desktop | 1440 × 900 (`fullPage`) | [`docs/screenshots/landing-desktop.png`](docs/screenshots/landing-desktop.png) |
 | Landing — mobile | 390 × 844 (`fullPage`) | [`docs/screenshots/landing-mobile.png`](docs/screenshots/landing-mobile.png) |
 
-![Cadence landing — desktop, 1440×900](docs/screenshots/landing-desktop.png)
+![Saltrun landing — desktop, 1440×900](docs/screenshots/landing-desktop.png)
 
-![Cadence landing — mobile, 390×844](docs/screenshots/landing-mobile.png)
+![Saltrun landing — mobile, 390×844](docs/screenshots/landing-mobile.png)
 
 Capture script: `scripts/capture-landing-screenshots.mjs` (Playwright Chromium, `device_scale_factor: 2`, `wait_until: networkidle`). Re-run after any landing-affecting change.
 
@@ -203,7 +203,7 @@ Capture script: `scripts/capture-landing-screenshots.mjs` (Playwright Chromium, 
 - **Component baseline** — [Prin7r Component Library Baseline: ShadCN-first](https://www.notion.so/3563ceec261981c1a147c81bf3bd0566) (Notion, internal).
 - **Refero Styles** — [styles.refero.design](https://styles.refero.design/) for cross-project DESIGN.md references when expanding `apps/app/`.
 - **Industrial visual references** — Klaviyo's confident brand frame; Mercury / Ramp's operator voice; Bombora's tooling-first dryness; switchgear panel safety-orange + graphite palettes; CAD blueprint typography conventions.
-- **Tooling references** — Smartlead / Instantly (email infrastructure rails); HeyReach (LinkedIn lane); Synthflow + Twilio (voice lane). Cadence sits on top of these, not against them.
+- **Tooling references** — Smartlead / Instantly (email infrastructure rails); HeyReach (LinkedIn lane); Synthflow + Twilio (voice lane). Saltrun sits on top of these, not against them.
 - **shadcn/ui** — [ui.shadcn.com](https://ui.shadcn.com/) (used as the import path for `apps/app/` primitives once that surface starts).
 - **Tailwind CSS 3.4** — [tailwindcss.com](https://tailwindcss.com/docs).
 - **Next.js 15 App Router** — [nextjs.org/docs](https://nextjs.org/docs).
@@ -215,4 +215,5 @@ Capture script: `scripts/capture-landing-screenshots.mjs` (Playwright Chromium, 
 | Date | Change | Reviewer |
 |------|--------|----------|
 | 2026-05-08 | Wave 2 build — DESIGN.md created with all 15 sections; landing shipped (9 sections); NOWPayments crypto checkout integration (`/api/checkout/nowpayments` route + Pricing CTAs + IPN webhook with HMAC-SHA512); 10 strategy/design docs published; pitch-deck.html shipped; brand identity locked (Cadence — graphite + signal-orange industrial blueprint). | Wave 2 build agent |
+| 2026-05-08 | **Wave 2 rebrand — Cadence → Saltrun.** Name-research FAIL on `Cadence` (Salesloft Cadence is the dominant SaaS-class trademark in outbound-sales-engagement; total search-engine collision). All wordmarks, copy, metadata, logo `aria-label`, repo description, Docker image/container names, NOWPayments order-id prefix, and pitch-deck retitled to **Saltrun**. Industrial-blueprint / safety-orange / 4-stat throughput hero / Tactical-Telemetry CRT redesign preserved unchanged. Live: https://outbound-sales-machines.prin7r.com (200, NOWPay LIVE on `{"plan":"self_serve"}`). | Wave 2 rebrand agent |
 | 2026-05-08 | **Wave 2 redesign — tactical-telemetry / CRT-terminal commit.** Inter banned and replaced with **IBM Plex Sans** (body) + **IBM Plex Mono** (labels/numerals); Space Grotesk display retained. New atmosphere stack: 48px blueprint grid, fixed CRT scanline overlay, fixed SVG noise grain (all pointer-events none, never on scrolling containers). New tokens: `phosphor #4AF626` (reserved for liveness only), `hairline-bright #4A5664` (ASCII bracket frames + ruler ticks). Steel/plate/hairline/chalk/slate retoned cooler/darker per the dark-canvas brutalist commit. **Hero throughput readout** rebuilt as a real telemetry dashboard ribbon: 4 cells with sparklines, deltas, status tags (`LIVE`/`OK`), ASCII bracket frame, drawing-sheet header (`RUN.0428.ICP-VC.SeriesA / COHORT N=27`), coordinate footer (`>>> LAT 40.7128°N · LON 74.0060°W`). **Sequence blueprint** rebuilt as actual blueprint linework: drawing-sheet title block (DRAWING NO / SCALE / REV), left-edge ruler with stage markers (01-04), inline SVG hairline connectors with crosshair markers and dimension ticks, drawing-sheet footer (DRAWN / CHECKED / UNIT / SHEET), grid lines via `gap-px` over `bg-hairline` for razor-thin dividing rules. **Reply triage** rebuilt as a CRT/HUD list view: phosphor-green stream-cursor, dense monospace rows with ID / T+ / classify-dot / from-subject / action columns, divide-y hairlines, mobile fallback to stacked cards. New components: `SystemTicker` (persistent runtime band above masthead with scrolling status data), `TelemetryRibbon` + `TelemetryCell`, `BlueprintConnector` (SVG-drawn branch connectors), `TriageRow` (CRT row), `.brackets-4` (ASCII corner brackets utility). | Wave 2 redesign agent |

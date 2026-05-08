@@ -27,7 +27,7 @@
 | Title | Founder / CEO |
 | Age | 28-40 |
 | Company stage | Bootstrapped or seed/Series-A B2B SaaS, $0.5-5M ARR |
-| Geo | Anywhere (Cadence is async-friendly) |
+| Geo | Anywhere (Saltrun is async-friendly) |
 | Team | 8-30 person company, 0-2 SDRs (or none — Theo runs outbound himself) |
 | Comp | $80-180k self-paid + equity |
 | Tech literacy | Built a side project in TypeScript at some point; understands warmup discipline conceptually |
@@ -40,14 +40,14 @@
 
 ## ICP — Ideal Customer Profile
 
-**Cadence is the right product when:**
+**Saltrun is the right product when:**
 - Company sells B2B SaaS at $20k-$300k ACV.
 - Company has at least one in-house GTM operator (RevOps lead, founder, or fractional CRO) — i.e., someone who can read a cohort report.
 - Outbound is a meaningful pipeline source (>15% of new ARR) — not the only one, not zero.
 - Customer values deliverability over send volume.
 - Customer can settle in stablecoin or via traditional invoice (Enterprise tier only).
 
-**Cadence is wrong when:**
+**Saltrun is wrong when:**
 - Customer wants to send 50k+ emails/week with no warmup discipline.
 - Customer's product is consumer or low-ACV (<$5k) — outbound economics don't work.
 - Customer has no GTM operator and won't hire one — the machine still needs an owner.
@@ -61,7 +61,7 @@
 - We refund and move on. (See Journey 3 in `docs/03-user-journeys.md`.)
 
 ### Anti-persona 2 — "The agency-resseller"
-- Wants to white-label Cadence and resell to 15 of their own clients.
+- Wants to white-label Saltrun and resell to 15 of their own clients.
 - Won't share end-customer ICP details, which breaks our 14-field enrichment.
 - We don't sell to resellers. The Enterprise tier requires a single named end-customer.
 

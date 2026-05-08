@@ -1,5 +1,5 @@
 /**
- * [CADENCE_ENV] Tiny env reader used by /api/checkout/* and /api/webhooks/*.
+ * [SALTRUN_ENV] Tiny env reader used by /api/checkout/* and /api/webhooks/*.
  * Mirrors the pattern in payments-prototypes/src/lib/env.ts so the surface
  * looks identical to operators reviewing both repos.
  */

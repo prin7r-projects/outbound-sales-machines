@@ -11,7 +11,7 @@
 | W1 | NOWPayments wired (checkout + IPN webhook), unpaid invoice test passes | Wave 2 build agent | this PR |
 | W1 | 10 strategy/design docs published as Notion sub-pages | Wave 2 build agent | this PR |
 | W2 | Founder writes first 3 LinkedIn posts (one per content pillar) | Founder | next 7 days |
-| W2 | Lead operator dogfoods Cadence on first internal outbound run (ICP = RevOps leads at Series B+ B2B SaaS) | Lead operator | scheduled |
+| W2 | Lead operator dogfoods Saltrun on first internal outbound run (ICP = RevOps leads at Series B+ B2B SaaS) | Lead operator | scheduled |
 | W2 | First paid Self-serve customer | Founder | target |
 
 ## Phase 2 — Foundation (days 15-30)

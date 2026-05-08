@@ -4,7 +4,7 @@
 
 ## Journey 1 — Mira (Primary persona, RevOps lead, $4,900/mo Managed tier)
 
-**Persona context.** RevOps lead at a Series B B2B SaaS, hit a 2-quarter dip in qualified meetings booked. Found Cadence via a LinkedIn post comparing managed-outbound shops. Asked her CRO for a 1-month pilot.
+**Persona context.** RevOps lead at a Series B B2B SaaS, hit a 2-quarter dip in qualified meetings booked. Found Saltrun via a LinkedIn post comparing managed-outbound shops. Asked her CRO for a 1-month pilot.
 
 | Step | Stage | Surface | Action | Outcome |
 |------|-------|---------|--------|---------|
@@ -13,9 +13,9 @@
 | 03 | Activation | Pricing → NOWPayments | Picks Managed at $4,900/mo, clicks "Book a managed run." Hosted invoice opens; she pays in USDC on Polygon (her ops budget already settles this way). | Invoice paid. Welcome email arrives in 2 minutes with a Cal.com link to her onboarding call. |
 | 04 | Activation | 45-min onboarding call | Lead operator (the actual person who will run her machine) walks through ICP build. Mira hands over: target ICP-1 (VP Eng at 200-1000 person FinTech), 3 trigger events, anti-list of 14 incumbent vendor companies. | Operator confirms first-send target: 14 days from today. Three domain pools allocated and warmup started. |
 | 05 | First value | Day 14 | First 250-contact send goes out across all three lanes simultaneously. | Mira gets a Slack-like daily digest at 09:00 local; sees first 3 replies queued in triage. |
-| 06 | First value | Day 19 | First positive reply books a meeting; Cadence pauses other lanes for that contact and sends Mira a calendar invite. | Mira's CRO notices the meeting on her calendar. First conversation goes well. |
+| 06 | First value | Day 19 | First positive reply books a meeting; Saltrun pauses other lanes for that contact and sends Mira a calendar invite. | Mira's CRO notices the meeting on her calendar. First conversation goes well. |
 | 07 | Recurring use | Day 30 | Monthly retro call: cohort report shows 6.4% reply rate ICP-1, $4.20 cost per qualified reply, 11 meetings booked. Performance fee invoice ($880, 11×$80) issued separately via NOWPayments. | Mira renews. She also asks for a second ICP slice. |
-| 08 | Recurring use | Day 60 | ICP-2 (VP Data at 500-2000 FinTech) added; Cadence allocates two more domain pools, warms them, ships first send 14 days later. | Throughput doubles within the month without a domain reputation hit. |
+| 08 | Recurring use | Day 60 | ICP-2 (VP Data at 500-2000 FinTech) added; Saltrun allocates two more domain pools, warms them, ships first send 14 days later. | Throughput doubles within the month without a domain reputation hit. |
 
 ## Journey 2 — Theo (Secondary persona, founder/CEO, $490/mo Self-serve)
 
@@ -23,7 +23,7 @@
 
 | Step | Stage | Surface | Action | Outcome |
 |------|-------|---------|--------|---------|
-| 01 | Discovery | Operator newsletter → landing | Reads a writeup linking to the Cadence landing in a sales-ops newsletter ("Reply rate, not pipeline"). | Lands directly on the throughput readout. Reads the Channels matrix. |
+| 01 | Discovery | Operator newsletter → landing | Reads a writeup linking to the Saltrun landing in a sales-ops newsletter ("Reply rate, not pipeline"). | Lands directly on the throughput readout. Reads the Channels matrix. |
 | 02 | Discovery | Landing — covenant section | The "What we won't do" list addresses his exact fear (domain reputation tanking with vendor changes). | Closes 11 other tabs. Decides he wants Self-serve to learn before committing to Managed. |
 | 03 | Activation | Pricing → NOWPayments | Picks Self-serve $490/mo; pays in USDT TRC-20. | Invoice paid, control-panel signup link emailed in 2 min. |
 | 04 | Activation | Control panel — sequence builder | Builds his first sequence: ICP = "VP Sales at 30-150 person SaaS, ARR $5-50M". Drops in his own first-touch email template; the LLM rewrites it for variant testing. | First sequence saved; warmup status of his 3 mailboxes tracked in the deliverability dashboard. |
@@ -33,7 +33,7 @@
 
 ## Journey 3 — Sam (Anti-persona stress test, growth hacker, declined)
 
-**Persona context.** Performance marketer who thinks Cadence is just another tool to spam-bomb 50k contacts/week.
+**Persona context.** Performance marketer who thinks Saltrun is just another tool to spam-bomb 50k contacts/week.
 
 | Step | Stage | Surface | Action | Outcome |
 |------|-------|---------|--------|---------|
@@ -42,7 +42,7 @@
 | 03 | Friction | Day 3 | Sam emails support asking to override the warmup limit. | Response: "We won't. The covenant is on the landing page. If you cancel within 14 days we'll refund." |
 | 04 | Resolution | Day 5 | Sam cancels; refund issued. | Domain pool returns to the warmup curve clean; no reputation hit. |
 
-> The anti-persona test is intentional. The brand voice and the rate-limiter together act as a self-selection filter. Cadence's economic model (CPQR) breaks if we let Sam onto the platform.
+> The anti-persona test is intentional. The brand voice and the rate-limiter together act as a self-selection filter. Saltrun's economic model (CPQR) breaks if we let Sam onto the platform.
 
 ## What Wave 2 ships for these journeys
 

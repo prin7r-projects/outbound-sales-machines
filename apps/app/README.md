@@ -1,4 +1,4 @@
-# apps/app — Cadence SaaS surface (planned, stub-only in Wave 2)
+# apps/app — Saltrun SaaS surface (planned, stub-only in Wave 2)
 
 > The customer-facing control panel that operators (Mira persona) and self-serve customers (Theo persona) use to build sequences, view the reply-triage queue, configure billing, and read the deliverability dashboard.
 
@@ -43,11 +43,11 @@ cd app/
 
 ### What we will replace immediately
 
-| Open-SaaS default | Cadence replacement | Reason |
+| Open-SaaS default | Saltrun replacement | Reason |
 |-------------------|----------------------|--------|
 | Stripe billing | NOWPayments invoice + IPN | Card payments are not in the merchant-profile scope; stablecoin matches the existing landing flow. |
 | Stripe webhook | NOWPayments IPN webhook | already implemented in `apps/landing/app/api/webhooks/nowpayments/route.ts` — port unchanged. |
-| Open-SaaS landing | Replaced with the existing `apps/landing/` (already shipped Wave 2) | We don't redo Cadence's brand identity. |
+| Open-SaaS landing | Replaced with the existing `apps/landing/` (already shipped Wave 2) | We don't redo Saltrun's brand identity. |
 | Open-SaaS analytics scaffold | Removed | Marketing analytics is the customer's choice; we don't ship a Plausible/PostHog default. |
 | Built-in admin dashboard | Re-themed to match `DESIGN.md` tokens | Same square-edged plates, same JetBrains Mono labels, same signal-orange CTAs. |
 

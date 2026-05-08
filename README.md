@@ -1,4 +1,4 @@
-# Cadence — outbound-sales-machines
+# Saltrun — outbound-sales-machines
 
 > The multi-channel outbound machine for operators who measure. Email, LinkedIn, and voice — one sequence, one accountability metric.
 

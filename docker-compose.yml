@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.landing
-    image: cadence-landing:latest
-    container_name: cadence-landing
+    image: saltrun-landing:latest
+    container_name: saltrun-landing
     restart: unless-stopped
     env_file:
       - .env

@@ -1,6 +1,6 @@
 # 01 — Brand Identity
 
-> Cadence is the outbound sales machine for operators who measure. Industrial, instrumented, blueprint-disciplined.
+> Saltrun is the outbound sales machine for operators who measure. Industrial, instrumented, blueprint-disciplined.
 
 ## Brand pyramid
 
@@ -13,7 +13,7 @@
 
 ## Positioning statement
 
-> For RevOps and GTM operators running outbound at scale, Cadence is a managed outbound machine that wires email, LinkedIn, and voice into a single sequence with deliverability and reply triage built in — unlike Apollo / Outreach / Salesloft, because the deliverability layer and the human SDR pod are part of the product, not the customer's homework.
+> For RevOps and GTM operators running outbound at scale, Saltrun is a managed outbound machine that wires email, LinkedIn, and voice into a single sequence with deliverability and reply triage built in — unlike Apollo / Outreach / Salesloft, because the deliverability layer and the human SDR pod are part of the product, not the customer's homework.
 
 ## Audience persona
 
@@ -47,7 +47,7 @@
 3. No fake urgency ("offer ends Friday"). The product sells itself on the throughput number.
 
 **Sample sentence.**
-> Most outbound stacks treat email, LinkedIn, and voice as three teams in three tools. Cadence treats them as one sequence with three executors.
+> Most outbound stacks treat email, LinkedIn, and voice as three teams in three tools. Saltrun treats them as one sequence with three executors.
 
 ## Visual system
 
@@ -82,7 +82,7 @@ Why this pairing: Space Grotesk has just enough mechanical character (the geomet
 
 ### Logo concept
 
-**Verbal description.** A six-point line graph rendered as a schematic — six dots connected by a sharp piecewise line that climbs, dips, climbs again. Reads as "throughput readout." Rendered in safety-orange (#F26B1F) on graphite. The wordmark "Cadence" sits to the right in Space Grotesk Bold, with "/ Outbound Machines" as the JetBrains Mono subtitle.
+**Verbal description.** A six-point line graph rendered as a schematic — six dots connected by a sharp piecewise line that climbs, dips, climbs again. Reads as "throughput readout." Rendered in safety-orange (#F26B1F) on graphite. The wordmark "Saltrun" sits to the right in Space Grotesk Bold, with "/ Outbound Machines" as the JetBrains Mono subtitle.
 
 ```
     •

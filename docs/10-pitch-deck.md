@@ -1,9 +1,9 @@
 # 10 — Pitch Deck
 
-> Ten slides. Each slide ≤ ~50 words. The HTML version at `pitch-deck.html` renders these with the Cadence brand identity.
+> Ten slides. Each slide ≤ ~50 words. The HTML version at `pitch-deck.html` renders these with the Saltrun brand identity.
 
 ## Slide 1 — Title
-**Cadence**
+**Saltrun**
 The outbound sales machine for operators who measure.
 
 > Multi-channel outbound — email, LinkedIn, voice — wired into one sequence with deliverability and reply triage built in.
@@ -20,7 +20,7 @@ The outbound sales machine for operators who measure.
 **Throughput, not pipeline.**
 The unit of value is *qualified replies per dollar* — not "emails sent."
 Operators who can measure throughput will pay for infrastructure that protects it.
-Cadence is that infrastructure.
+Saltrun is that infrastructure.
 
 ## Slide 4 — The product
 **Three lanes. One thread. One control panel.**
@@ -73,5 +73,5 @@ Numbers from rolling 30d, audited weekly.
 
 ## Notes
 
-- The HTML version at `docs/pitch-deck.html` is a single self-contained file (no build step) styled with the Cadence brand identity.
+- The HTML version at `docs/pitch-deck.html` is a single self-contained file (no build step) styled with the Saltrun brand identity.
 - All numbers are sourced from the `docs/02-architecture.md` cohort definition or the `docs/07-sales-strategy.md` pricing table.

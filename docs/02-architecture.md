@@ -1,6 +1,6 @@
 # 02 — Architecture
 
-> The shape of the system that runs Cadence — components, data flows, deploy topology.
+> The shape of the system that runs Saltrun — components, data flows, deploy topology.
 
 ## System diagram
 
@@ -10,7 +10,7 @@ flowchart TD
     OP[Operator]
   end
 
-  subgraph Cadence_Tenant
+  subgraph Saltrun_Tenant
     CTRL[Control Panel<br/>Next.js 15 / SaaS surface]
     SEQ[Sequence Engine<br/>Bun + Hono + Postgres]
     REPLY[Reply Triage<br/>LLM-classifier + human SDR queue]
@@ -67,7 +67,7 @@ flowchart TD
 | **Email lane** | Smartlead / Instantly | Send via warmed mailbox pools. Inbound parsed via webhook. |
 | **LinkedIn lane** | HeyReach | Connection requests, follow-ups, voice notes. Uses real warmed accounts only. |
 | **Voice lane** | Synthflow (AI voicemail) + Twilio (live SMS / human callback bridge) | 22-second AI voicemail in operator's voice clone; live answers route to human SDR within 60s. |
-| **Customer CRM sync** | One-way: Cadence → SFDC/HubSpot | Merged thread digest, meeting confirmation, recording placeholder. |
+| **Customer CRM sync** | One-way: Saltrun → SFDC/HubSpot | Merged thread digest, meeting confirmation, recording placeholder. |
 | **NOWPayments** | Hosted invoice + IPN webhook | Self-serve / Managed checkout. HMAC-SHA512 signed callback. |
 
 ## Data flows

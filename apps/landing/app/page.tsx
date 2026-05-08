@@ -91,7 +91,7 @@ function Masthead() {
 
 function Logo() {
   return (
-    <Link href="/" aria-label="Cadence" className="inline-flex items-center gap-3">
+    <Link href="/" aria-label="Saltrun" className="inline-flex items-center gap-3">
       <svg width="36" height="22" viewBox="0 0 36 22" aria-hidden>
         <path d="M2 18 L9 11 L15 15 L21 6 L26 10 L34 4" stroke="#F26B1F" strokeWidth="1.8" fill="none" strokeLinecap="square" />
         <circle cx="2" cy="18" r="1.5" fill="#F26B1F" />
@@ -102,7 +102,7 @@ function Logo() {
         <circle cx="34" cy="4" r="1.5" fill="#F26B1F" />
       </svg>
       <span className="font-display font-bold tracking-tight text-[20px] leading-none">
-        Cadence
+        Saltrun
       </span>
       <span className="hidden sm:inline label">/ Outbound Machines</span>
     </Link>
@@ -128,7 +128,7 @@ function Hero() {
         </h1>
 
         <p className="reveal-2 mt-10 max-w-[640px] text-[19px] md:text-[21px] leading-[1.55] text-chalk">
-          Cadence is the multi-channel outbound machine for operators who measure.
+          Saltrun is the multi-channel outbound machine for operators who measure.
           Email, LinkedIn, and voice run as one sequence — with deliverability,
           persona-aware copy, and reply triage built in. No 12-tab Frankenstack.
           One control panel, one accountability metric:
@@ -158,7 +158,7 @@ function Hero() {
           <CompanyMark name="Synthflow" />
         </div>
         <p className="mt-3 label text-[10px] normal-case tracking-[0.1em] text-slate">
-          [ Cadence sits on top of these — not against them. Bring your seats; we run them. ]
+          [ Saltrun sits on top of these — not against them. Bring your seats; we run them. ]
         </p>
       </div>
     </section>
@@ -423,9 +423,9 @@ function ChannelMatrix() {
         />
         <p className="mt-6 max-w-2xl text-chalk text-[17px] leading-[1.65]">
           Most outbound stacks treat email, LinkedIn, and voice as three teams in
-          three tools. Cadence treats them as one sequence with three executors.
+          three tools. Saltrun treats them as one sequence with three executors.
           A reply on any channel pauses the others; a positive disposition
-          collapses the rest of the cadence to a meeting confirmation.
+          collapses the rest of the sequence to a meeting confirmation.
         </p>
 
         <div className="mt-12 grid md:grid-cols-3 gap-px bg-hairline border border-hairline">
@@ -481,7 +481,7 @@ function SequenceBlueprint() {
           title="A run isn't a list. It's a flowchart."
         />
         <p className="mt-6 max-w-2xl text-chalk text-[17px] leading-[1.65]">
-          Cadence treats every run as a directed graph: an ICP node fans out to
+          Saltrun treats every run as a directed graph: an ICP node fans out to
           three execution lanes (email, LinkedIn, voice) that share state. A
           reply on lane B halts lane A and B and routes the contact to triage.
           A no-show triggers a re-engagement node 14 days later. This is what's
@@ -495,7 +495,7 @@ function SequenceBlueprint() {
           <div className="grid grid-cols-[1fr_auto_auto] gap-4 items-end border-b border-hairline pb-3 mb-8">
             <div>
               <div className="label">DRAWING NO.</div>
-              <div className="font-mono text-bone text-[14px] mt-1">CDN-RUN.0428.ICP-VC.SeriesA</div>
+              <div className="font-mono text-bone text-[14px] mt-1">SLT-RUN.0428.ICP-VC.SeriesA</div>
             </div>
             <div className="hidden md:block">
               <div className="label">SCALE</div>
@@ -511,7 +511,7 @@ function SequenceBlueprint() {
 
           {/* Drawing-sheet footer — title block */}
           <div className="mt-8 pt-4 border-t border-hairline grid grid-cols-2 md:grid-cols-4 gap-4 text-[10.5px] font-mono uppercase tracking-[0.16em] text-slate">
-            <div><span className="text-chalk">DRAWN</span> // ops.cadence</div>
+            <div><span className="text-chalk">DRAWN</span> // ops.saltrun</div>
             <div><span className="text-chalk">CHECKED</span> // mira.r</div>
             <div><span className="text-chalk">UNIT</span> // D-01 / per tenant</div>
             <div><span className="text-chalk">SHEET</span> // 1 of 1</div>
@@ -965,7 +965,7 @@ function ReplyTriage() {
         />
         <p className="mt-6 max-w-2xl text-chalk text-[17px] leading-[1.65]">
           The hardest part of outbound at scale is not the sending — it&apos;s the
-          replying. A 5-rep team gets buried at 800 replies per week. Cadence
+          replying. A 5-rep team gets buried at 800 replies per week. Saltrun
           classifies each reply, drafts a response, and routes only the ones
           that need a human.
         </p>
@@ -1128,7 +1128,7 @@ function Pricing() {
       cta: "Talk to ops",
       highlight: false,
       fallbackHref:
-        "mailto:ops@prin7r.com?subject=Cadence%20enterprise%20inquiry&body=Company%3A%0AAvg.%20deal%20size%3A%0ATarget%20ICP%3A%0ACurrent%20outbound%20stack%3A%0ANotes%3A%0A",
+        "mailto:ops@prin7r.com?subject=Saltrun%20enterprise%20inquiry&body=Company%3A%0AAvg.%20deal%20size%3A%0ATarget%20ICP%3A%0ACurrent%20outbound%20stack%3A%0ANotes%3A%0A",
     },
   ];
 
@@ -1281,7 +1281,7 @@ function Closer() {
               Pick a tier <Arrow />
             </Link>
             <a
-              href="mailto:ops@prin7r.com?subject=Cadence%20managed%20run&body=Company%3A%0AAvg.%20deal%20size%3A%0ATarget%20ICP%3A%0ACurrent%20outbound%20stack%3A%0ATime%20zone%3A%0ANotes%3A%0A"
+              href="mailto:ops@prin7r.com?subject=Saltrun%20managed%20run&body=Company%3A%0AAvg.%20deal%20size%3A%0ATarget%20ICP%3A%0ACurrent%20outbound%20stack%3A%0ATime%20zone%3A%0ANotes%3A%0A"
               className="btn btn-ghost"
             >
               Email ops directly <Arrow />
@@ -1305,7 +1305,7 @@ function Footer() {
         <div>
           <Logo />
           <p className="mt-5 text-slate text-[13px] max-w-xs leading-[1.55]">
-            Cadence is operated by Prin7r. Outbound ops pod across NYC, Berlin,
+            Saltrun is operated by Prin7r. Outbound ops pod across NYC, Berlin,
             and Tbilisi. Built on the company-outbound engine.
           </p>
         </div>

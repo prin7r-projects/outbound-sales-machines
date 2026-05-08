@@ -1,6 +1,6 @@
 "use client";
 /**
- * [CADENCE_PRICING_CTA] Client component that turns Self-serve and Managed
+ * [SALTRUN_PRICING_CTA] Client component that turns Self-serve and Managed
  * tiers into NOWPayments hosted-invoice CTAs.
  *
  * On click → POST /api/checkout/nowpayments → redirect to invoice_url.
@@ -20,7 +20,7 @@ type Props = {
 };
 
 const FALLBACK_MAILTO =
-  "mailto:ops@prin7r.com?subject=Cadence%20checkout%20handoff&body=Plan%3A%0ACompany%3A%0ATarget%20ICP%3A%0ANotes%3A%0A";
+  "mailto:ops@prin7r.com?subject=Saltrun%20checkout%20handoff&body=Plan%3A%0ACompany%3A%0ATarget%20ICP%3A%0ANotes%3A%0A";
 
 export function PricingCta({ plan, label, className }: Props) {
   const [busy, setBusy] = useState(false);

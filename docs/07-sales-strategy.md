@@ -63,7 +63,7 @@
 | Objection | Response |
 |-----------|----------|
 | "We tried Smartlead/Instantly and got blacklisted on 3 SPF pools." | "That's exactly why our pricing model is structured around the deliverability layer. We pay the warmup cost, not you. Audit ledger here. Ask for a 30-day refund if placement drops below 95%." |
-| "Apollo is cheaper." | "Apollo is a data layer. Cadence is a managed run on top of a data layer. If you're not using a managed pod, Apollo is what we'd recommend you self-serve. We can integrate with Apollo as the data layer if you want — see the Self-serve tier." |
+| "Apollo is cheaper." | "Apollo is a data layer. Saltrun is a managed run on top of a data layer. If you're not using a managed pod, Apollo is what we'd recommend you self-serve. We can integrate with Apollo as the data layer if you want — see the Self-serve tier." |
 | "We can't pay in stablecoin." | "Enterprise tier wires/ACH. Self-serve and Managed don't, by design — we don't want to be a card-fraud target. Crypto on-ramp is supported for the same dollar." |
 | "What if our domain reputation tanks?" | "Pause the pool. We rotate. The circuit breaker trips at 2.0% bounce or 0.1% spam complaints. We've never had a customer leave the platform with a worse reputation than they arrived with — we'd refund the month before we let that happen." |
 | "Is this just an agency in a wrapper?" | "It's an agency *and* a product. The lead operator who runs your machine uses the same control panel you'd use Self-serve. The product is the audit trail. Ask for a 15-minute screen-share of a real run." |

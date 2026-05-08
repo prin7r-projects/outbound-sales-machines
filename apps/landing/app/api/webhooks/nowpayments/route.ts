@@ -1,5 +1,5 @@
 /**
- * [CADENCE_NOWPAYMENTS_IPN] POST /api/webhooks/nowpayments
+ * [SALTRUN_NOWPAYMENTS_IPN] POST /api/webhooks/nowpayments
  *
  * NOWPayments delivers payment status updates here. Body is JSON; the
  * x-nowpayments-sig header carries the HMAC-SHA512 signature over the
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   // Stub — when apps/app ships this becomes a DB write. For now journalctl
   // is the audit trail. We deliberately do NOT log the full payload.
   console.log(
-    `[CADENCE_NOWPAYMENTS_IPN] verified=true order_id=${orderId} status=${status} paid=${paid}`
+    `[SALTRUN_NOWPAYMENTS_IPN] verified=true order_id=${orderId} status=${status} paid=${paid}`
   );
 
   return NextResponse.json({

@@ -1,5 +1,5 @@
 /**
- * [CADENCE_NOWPAYMENTS_CHECKOUT] POST /api/checkout/nowpayments
+ * [SALTRUN_NOWPAYMENTS_CHECKOUT] POST /api/checkout/nowpayments
  *
  * Body:    { plan: "self_serve" | "managed" }
  * Returns: { invoice_url, invoice_id, plan, mode: "live" } on success.

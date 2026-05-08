@@ -31,7 +31,7 @@
 **Process.** PR contractor lines up 8-12 pitches in the first 90 days; founder converts 2-3 to recordings.
 
 ### Direct outbound (using our own product) (20%)
-**Why it fits.** Dogfooding the product on Cadence's own outbound is brand-credible and produces real reply-rate numbers we can publish.
+**Why it fits.** Dogfooding the product on Saltrun's own outbound is brand-credible and produces real reply-rate numbers we can publish.
 
 **Format.** ICP-1 = "Head of RevOps at Series B+ B2B SaaS, NA + EU, last vendor change ≥6 months ago." First-touch refers to the prospect's own company's recent funding / hiring / product launch and ties to the deliverability pain. Three lanes (email + LinkedIn + voice).
 
@@ -40,12 +40,12 @@
 ### Community presence (10%)
 **Why it fits.** Pavilion (Patrick Trammell's, formerly Sales Assembly) is the densest concentration of RevOps leaders in the world. RevOps Co-op and 30MPC's community are free / low-cost variants.
 
-**Format.** Lead operator participates with answers, not asks. When asked "what tool would you use for X" they describe Cadence by what it does, not by name. The brand is "the operator who answered the warmup question well, btw they run a thing."
+**Format.** Lead operator participates with answers, not asks. When asked "what tool would you use for X" they describe Saltrun by what it does, not by name. The brand is "the operator who answered the warmup question well, btw they run a thing."
 
 **Constraint.** No DMs to community members about the product unless they DM us first. The community trust is the asset.
 
 ### YC / IndieHackers (10%)
-**Why it fits.** Theo persona lives here. YC alumni Slack and IndieHackers forums regularly compare outbound tools. Cadence's pricing structure (paid in stablecoin, no annual lock-in) is a unique fit for stage-pre-Series-A founders.
+**Why it fits.** Theo persona lives here. YC alumni Slack and IndieHackers forums regularly compare outbound tools. Saltrun's pricing structure (paid in stablecoin, no annual lock-in) is a unique fit for stage-pre-Series-A founders.
 
 **Format.** Founder writes 1 post/month on IndieHackers about a specific outbound mechanic ("we ran 1,200 LinkedIn voice notes — here's what worked"). YC alumni Slack is direct DM only when invited.
 
@@ -55,13 +55,13 @@
 **Why we delay.** Paid search needs the landing to be conversion-tested at organic traffic first. Wave 2 isn't there yet. Starts in Wave 3 once the cohort numbers are proven at scale.
 
 ### Referral / partnerships (5%)
-**Why it fits.** Smartlead and Instantly are infrastructure layers — they don't compete with Cadence (we sit on top of them). HeyReach is the LinkedIn lane. Synthflow is the voice lane. Each has a customer who would be a great Cadence customer but won't get there alone.
+**Why it fits.** Smartlead and Instantly are infrastructure layers — they don't compete with Saltrun (we sit on top of them). HeyReach is the LinkedIn lane. Synthflow is the voice lane. Each has a customer who would be a great Saltrun customer but won't get there alone.
 
 **Format.** Cross-link with explicit "we are not the same product" framing. No revenue share for Wave 2 — we revisit once the partnership volume is meaningful.
 
 ## What we will NOT use
 
-- **Mass cold email blasts** for Cadence's own outbound. Hypocritical and brand-damaging.
+- **Mass cold email blasts** for Saltrun's own outbound. Hypocritical and brand-damaging.
 - **Sponsored vendor "best of" listicles**. Pay-to-play eats the operator-built brand.
 - **Twitter ads / Reddit ads / paid social**. Wrong audience, wrong intent.
 - **"Free trial" offer language** — Self-serve is a 30-day pre-paid run, not a trial.

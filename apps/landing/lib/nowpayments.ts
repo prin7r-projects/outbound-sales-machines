@@ -1,5 +1,5 @@
 /**
- * [CADENCE_NOWPAYMENTS] Server-side helpers for the NOWPayments hosted invoice.
+ * [SALTRUN_NOWPAYMENTS] Server-side helpers for the NOWPayments hosted invoice.
  *
  * - PLANS maps the two self-serve pricing tiers visible on the landing
  *   (Self-serve / Managed) to USD price + invoice copy. The Enterprise
@@ -26,14 +26,14 @@ export type Plan = {
 export const PLANS: Record<PlanId, Plan> = {
   self_serve: {
     id: "self_serve",
-    name: "Cadence — Self-serve (1 month, 1 seat)",
+    name: "Saltrun — Self-serve (1 month, 1 seat)",
     priceUsd: 490,
     description:
       "1 seat / 3 mailboxes / 1 LinkedIn account. 3,000 enriched contacts. Sequence builder + reply triage UI. Self-managed deliverability dashboard. 30 days, USD-priced, paid in stablecoin.",
   },
   managed: {
     id: "managed",
-    name: "Cadence — Managed (1 month, 5 seats)",
+    name: "Saltrun — Managed (1 month, 5 seats)",
     priceUsd: 4900,
     description:
       "5 seats / 25 mailboxes / 5 LinkedIn accounts. 30,000 enriched contacts. Dedicated SDR pod (1 lead + 2 ops). Bring-your-own ICP or we build from scratch. Weekly cohort report + monthly retro. Performance fee billed separately at $80 / qualified meeting.",
@@ -66,7 +66,7 @@ export async function createNowpaymentsInvoice(input: CreateInvoiceInput): Promi
   const sandbox = (optionalEnv("NOWPAYMENTS_SANDBOX") ?? "false").toLowerCase() === "true";
   const apiBase = sandbox ? "https://api-sandbox.nowpayments.io" : "https://api.nowpayments.io";
 
-  const orderId = `cadence_${input.plan.id}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  const orderId = `saltrun_${input.plan.id}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
   const body = {
     price_amount: input.plan.priceUsd,
