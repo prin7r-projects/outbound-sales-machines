@@ -1,25 +1,41 @@
 app saltrun {
   wasp: {
-    version: "^0.16.0"
+    version: "0.16.0"
   },
   title: "Saltrun - Outbound Sales Machines",
   head: [
     "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap\" />",
+    "<link rel=\"icon\" href=\"/favicon.ico\" />",
   ],
+  auth: {
+    userEntity: User,
+    methods: {
+      email: {
+        fromField: {
+          name: "Saltrun",
+          email: "hello@saltrun.com"
+        },
+        userSignupFields: import { userSignupFields } from "@src/auth/userSignupFields",
+      },
+    },
+    onAuthSucceededRedirectTo: "/",
+    onAuthFailedRedirectTo: "/login",
+  },
+  emailSender: {
+    provider: SMTP
+  },
+  client: {
+    rootComponent: import { App } from "@src/App.tsx",
+  }
 }
 
-query getTenant {
-  fn: import { getTenant } from "@src/server/queries.js",
-  entities: [Tenant, User, Domain]
-}
-
+// #region Entities
 entity Tenant {
   id: UUID @id @default(uuid()),
   name: String,
   plan: Enum { SELF_SERVE, MANAGED } @default(SELF_SERVE),
   crm: Enum { SALESFORCE, HUBSPOT, NONE } @default(NONE),
   createdAt: DateTime @default(now()),
-  
   users: [User],
   domains: [Domain],
   sequences: [Sequence],
@@ -31,8 +47,6 @@ entity User {
   id: UUID @id @default(uuid()),
   email: String @unique,
   isAdmin: Boolean @default(false),
-  createdAt: DateTime @default(now()),
-  
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID
 }
@@ -45,8 +59,6 @@ entity Domain {
   dmarcStatus: String @default("pending"),
   warmupDay: Int @default(0),
   status: Enum { WARMING, HEALTHY, PAUSED, EXPIRING } @default(WARMING),
-  createdAt: DateTime @default(now()),
-  
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID
 }
@@ -57,7 +69,6 @@ entity Sequence {
   version: Int @default(1),
   status: Enum { DRAFT, ACTIVE, PAUSED } @default(DRAFT),
   spec: JSON,
-  
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID,
   steps: [Step],
@@ -70,7 +81,6 @@ entity Step {
   channel: Enum { EMAIL, LINKEDIN, VOICE },
   waitDays: Int,
   bodyTemplate: String,
-  
   sequence: Sequence @relation(link: Sequence.id),
   sequenceId: UUID
 }
@@ -81,7 +91,6 @@ entity Enrollment {
   contactEmail: String,
   status: Enum { ACTIVE, PAUSED, COMPLETED, OPTED_OUT, REPLIED } @default(ACTIVE),
   enrolledAt: DateTime @default(now()),
-  
   sequence: Sequence @relation(link: Sequence.id),
   sequenceId: UUID,
   messages: [Message]
@@ -92,7 +101,6 @@ entity Message {
   channel: String,
   status: Enum { QUEUED, SENT, DELIVERED, BOUNCED, OPENED, CLICKED } @default(QUEUED),
   sentAt: DateTime?,
-  
   enrollment: Enrollment @relation(link: Enrollment.id),
   enrollmentId: UUID,
   step: Step @relation(link: Step.id),
@@ -105,7 +113,6 @@ entity Reply {
   body: String,
   bucket: Enum { HOT, WARM, COLD, AUTO_REPLY, OOF },
   receivedAt: DateTime @default(now()),
-  
   message: Message @relation(link: Message.id),
   messageId: UUID
 }
@@ -115,7 +122,6 @@ entity ICP {
   source: String,
   contactCount: Int,
   importedAt: DateTime @default(now()),
-  
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID
 }
@@ -123,11 +129,73 @@ entity ICP {
 entity PodAssignment {
   id: UUID @id @default(uuid()),
   assignedAt: DateTime @default(now()),
-  
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID
 }
+// #endregion
 
-auth: [
-  { userEntity: User, methods: { email: { provider: EmailAndPassword } } }
-]
+// #region Auth Routes
+route LoginRoute { path: "/login", to: LoginPage }
+page LoginPage {
+  component: import { LoginPage } from "@src/auth/LoginPage.tsx"
+}
+
+route SignupRoute { path: "/signup", to: SignupPage }
+page SignupPage {
+  component: import { SignupPage } from "@src/auth/SignupPage.tsx"
+}
+// #endregion
+
+// #region App Routes
+route DashboardRoute { path: "/", to: DashboardPage }
+page DashboardPage {
+  authRequired: true,
+  component: import { DashboardPage } from "@src/pages/DashboardPage.tsx"
+}
+
+route DomainsRoute { path: "/domains", to: DomainsPage }
+page DomainsPage {
+  authRequired: true,
+  component: import { DomainsPage } from "@src/pages/DomainsPage.tsx"
+}
+
+route SequencesRoute { path: "/sequences", to: SequencesPage }
+page SequencesPage {
+  authRequired: true,
+  component: import { SequencesPage } from "@src/pages/SequencesPage.tsx"
+}
+// #endregion
+
+// #region Queries
+query getTenant {
+  fn: import { getTenant } from "@src/server/queries",
+  entities: [Tenant, User, Domain]
+}
+
+query getDomains {
+  fn: import { getDomains } from "@src/server/queries",
+  entities: [Domain]
+}
+
+query getSequences {
+  fn: import { getSequences } from "@src/server/queries",
+  entities: [Sequence, Step]
+}
+// #endregion
+
+// #region Actions
+action createDomain {
+  fn: import { createDomain } from "@src/server/actions",
+  entities: [Domain]
+}
+
+action updateDomain {
+  fn: import { updateDomain } from "@src/server/actions",
+  entities: [Domain]
+}
+
+action createSequence {
+  fn: import { createSequence } from "@src/server/actions",
+  entities: [Sequence, Step]
+}
+// #endregion
