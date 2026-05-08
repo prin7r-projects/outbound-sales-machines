@@ -1,5 +1,7 @@
-// Sequence engine v0 — schedules sends per step, respects warmup caps
+// Sequence engine v1 — schedules sends per step across 3 channels
 import { SmartleadAdapter, type EmailSendRequest } from './adapters/smartlead';
+import { HeyReachAdapter, type LinkedInMessageRequest } from './adapters/heyreach';
+import { VoiceAdapter, type VoiceCallRequest } from './adapters/voice';
 import {
   getDailyCap,
   canSendEmail,
@@ -15,17 +17,32 @@ const emailQueue: any[] = [];
 
 export interface SequenceEngineConfig {
   smartleadApiKey: string;
+  heyreachApiKey?: string;
+  synthflowApiKey?: string;
+  twilioAccountSid?: string;
+  twilioAuthToken?: string;
+  voiceFromNumber?: string;
   defaultFromEmail: string;
 }
 
 export class SequenceEngine {
   private smartlead: SmartleadAdapter;
+  private heyreach: HeyReachAdapter;
+  private voice: VoiceAdapter;
   private defaultFromEmail: string;
   private isProcessing = false;
 
   constructor(config: SequenceEngineConfig) {
     this.smartlead = new SmartleadAdapter({ apiKey: config.smartleadApiKey });
+    this.heyreach = new HeyReachAdapter({ apiKey: config.heyreachApiKey || '' });
+    this.voice = new VoiceAdapter({
+      synthflowApiKey: config.synthflowApiKey || '',
+      twilioAccountSid: config.twilioAccountSid || '',
+      twilioAuthToken: config.twilioAuthToken || '',
+      fromNumber: config.voiceFromNumber || ''
+    });
     this.defaultFromEmail = config.defaultFromEmail;
+    this.isProcessing = false;
   }
 
   // Launch a sequence for a tenant
@@ -75,7 +92,7 @@ export class SequenceEngine {
     }
   }
 
-  // Process a sequence (send emails for current step)
+  // Process a sequence (send messages for current step)
   private async processSequence(sequenceId: string): Promise<void> {
     const seqData = activeSequences.get(sequenceId);
     if (!seqData) return;
@@ -88,6 +105,55 @@ export class SequenceEngine {
       activeSequences.delete(sequenceId);
       return;
     }
+
+    // Get enrollments for this sequence
+    const enrollments = sequence.enrollments || [];
+
+    for (const enrollment of enrollments) {
+      // Queue based on channel
+      if (currentStep.channel === 'EMAIL') {
+        // Check warmup caps before sending
+        const warmupCheck = canSendEmail(domain.warmupDay, domain.emailsSentToday || 0);
+        if (!warmupCheck.allowed) {
+          console.log(`Daily cap reached for domain ${domain.domain}`);
+          continue;
+        }
+
+        emailQueue.push({
+          enrollment,
+          step: currentStep,
+          sequence,
+          tenant,
+          domain
+        });
+      } else if (currentStep.channel === 'LINKEDIN') {
+        // Queue LinkedIn message
+        emailQueue.push({
+          enrollment,
+          step: currentStep,
+          sequence,
+          tenant,
+          domain,
+          channel: 'linkedin'
+        });
+      } else if (currentStep.channel === 'VOICE') {
+        // Queue voice call
+        emailQueue.push({
+          enrollment,
+          step: currentStep,
+          sequence,
+          tenant,
+          domain,
+          channel: 'voice'
+        });
+      }
+    }
+
+    // Process queue
+    if (!this.isProcessing) {
+      this.processQueue();
+    }
+  }
 
     // Check if step is email channel
     if (currentStep.channel !== 'EMAIL') {
@@ -124,7 +190,7 @@ export class SequenceEngine {
     }
   }
 
-  // Process email queue
+  // Process queue (email, LinkedIn, voice)
   private async processQueue(): Promise<void> {
     if (this.isProcessing) return;
     this.isProcessing = true;
@@ -133,13 +199,65 @@ export class SequenceEngine {
       const item = emailQueue.shift();
       if (!item) break;
 
-      await this.sendEmail(item);
+      if (item.channel === 'linkedin') {
+        await this.sendLinkedInMessage(item);
+      } else if (item.channel === 'voice') {
+        await this.sendVoiceCall(item);
+      } else {
+        await this.sendEmail(item);
+      }
       
       // Rate limiting - wait 100ms between sends
       await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     this.isProcessing = false;
+  }
+
+  // Send a LinkedIn message
+  private async sendLinkedInMessage(item: any): Promise<void> {
+    const { enrollment, step, sequence, tenant, domain } = item;
+
+    try {
+      const linkedInRequest: LinkedInMessageRequest = {
+        campaignId: step.campaignId || tenant.linkedInCampaignId || '',
+        profileUrl: enrollment.contactLinkedInUrl || enrollment.contactId,
+        message: this.interpolateTemplate(step.bodyTemplate, enrollment)
+      };
+
+      const result = await this.heyreach.sendMessage(linkedInRequest);
+
+      if (result.success) {
+        console.log(`LinkedIn message sent to ${enrollment.contactId} for sequence ${sequence.name}`);
+      } else {
+        console.error(`Failed to send LinkedIn message: ${result.error}`);
+      }
+    } catch (error: any) {
+      console.error(`Error sending LinkedIn message: ${error.message}`);
+    }
+  }
+
+  // Make a voice call
+  private async sendVoiceCall(item: any): Promise<void> {
+    const { enrollment, step, sequence, tenant, domain } = item;
+
+    try {
+      const voiceRequest: VoiceCallRequest = {
+        to: enrollment.contactPhone || enrollment.contactId,
+        script: step.bodyTemplate || 'Hello, this is a call from our team.',
+        contactId: enrollment.contactId
+      };
+
+      const result = await this.voice.makeCall(voiceRequest);
+
+      if (result.success) {
+        console.log(`Voice call initiated to ${enrollment.contactId} for sequence ${sequence.name}`);
+      } else {
+        console.error(`Failed to make voice call: ${result.error}`);
+      }
+    } catch (error: any) {
+      console.error(`Error making voice call: ${error.message}`);
+    }
   }
 
   // Send a single email
