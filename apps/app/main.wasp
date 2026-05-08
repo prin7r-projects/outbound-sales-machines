@@ -1,0 +1,133 @@
+app saltrun {
+  wasp: {
+    version: "^0.16.0"
+  },
+  title: "Saltrun - Outbound Sales Machines",
+  head: [
+    "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap\" />",
+  ],
+}
+
+query getTenant {
+  fn: import { getTenant } from "@src/server/queries.js",
+  entities: [Tenant, User, Domain]
+}
+
+entity Tenant {
+  id: UUID @id @default(uuid()),
+  name: String,
+  plan: Enum { SELF_SERVE, MANAGED } @default(SELF_SERVE),
+  crm: Enum { SALESFORCE, HUBSPOT, NONE } @default(NONE),
+  createdAt: DateTime @default(now()),
+  
+  users: [User],
+  domains: [Domain],
+  sequences: [Sequence],
+  icps: [ICP],
+  podAssignments: [PodAssignment]
+}
+
+entity User {
+  id: UUID @id @default(uuid()),
+  email: String @unique,
+  isAdmin: Boolean @default(false),
+  createdAt: DateTime @default(now()),
+  
+  tenant: Tenant @relation(link: Tenant.id),
+  tenantId: UUID
+}
+
+entity Domain {
+  id: UUID @id @default(uuid()),
+  domain: String,
+  spfStatus: String @default("pending"),
+  dkimStatus: String @default("pending"),
+  dmarcStatus: String @default("pending"),
+  warmupDay: Int @default(0),
+  status: Enum { WARMING, HEALTHY, PAUSED, EXPIRING } @default(WARMING),
+  createdAt: DateTime @default(now()),
+  
+  tenant: Tenant @relation(link: Tenant.id),
+  tenantId: UUID
+}
+
+entity Sequence {
+  id: UUID @id @default(uuid()),
+  name: String,
+  version: Int @default(1),
+  status: Enum { DRAFT, ACTIVE, PAUSED } @default(DRAFT),
+  spec: JSON,
+  
+  tenant: Tenant @relation(link: Tenant.id),
+  tenantId: UUID,
+  steps: [Step],
+  enrollments: [Enrollment]
+}
+
+entity Step {
+  id: UUID @id @default(uuid()),
+  idx: Int,
+  channel: Enum { EMAIL, LINKEDIN, VOICE },
+  waitDays: Int,
+  bodyTemplate: String,
+  
+  sequence: Sequence @relation(link: Sequence.id),
+  sequenceId: UUID
+}
+
+entity Enrollment {
+  id: UUID @id @default(uuid()),
+  contactId: String,
+  contactEmail: String,
+  status: Enum { ACTIVE, PAUSED, COMPLETED, OPTED_OUT, REPLIED } @default(ACTIVE),
+  enrolledAt: DateTime @default(now()),
+  
+  sequence: Sequence @relation(link: Sequence.id),
+  sequenceId: UUID,
+  messages: [Message]
+}
+
+entity Message {
+  id: UUID @id @default(uuid()),
+  channel: String,
+  status: Enum { QUEUED, SENT, DELIVERED, BOUNCED, OPENED, CLICKED } @default(QUEUED),
+  sentAt: DateTime?,
+  
+  enrollment: Enrollment @relation(link: Enrollment.id),
+  enrollmentId: UUID,
+  step: Step @relation(link: Step.id),
+  stepId: UUID,
+  replies: [Reply]
+}
+
+entity Reply {
+  id: UUID @id @default(uuid()),
+  body: String,
+  bucket: Enum { HOT, WARM, COLD, AUTO_REPLY, OOF },
+  receivedAt: DateTime @default(now()),
+  
+  message: Message @relation(link: Message.id),
+  messageId: UUID
+}
+
+entity ICP {
+  id: UUID @id @default(uuid()),
+  source: String,
+  contactCount: Int,
+  importedAt: DateTime @default(now()),
+  
+  tenant: Tenant @relation(link: Tenant.id),
+  tenantId: UUID
+}
+
+entity PodAssignment {
+  id: UUID @id @default(uuid()),
+  assignedAt: DateTime @default(now()),
+  
+  tenant: Tenant @relation(link: Tenant.id),
+  tenantId: UUID
+}
+
+auth: [
+  { userEntity: User, methods: { email: { provider: EmailAndPassword } } }
+]
