@@ -58,7 +58,7 @@ entity Domain {
   dkimStatus: String @default("pending"),
   dmarcStatus: String @default("pending"),
   warmupDay: Int @default(0),
-  status: Enum { WARMING, HEALTHY, PAUSED, EXPIRING } @default(WARMING),
+  status: Enum { WARMUP_READY, WARMING, HEALTHY, PAUSED, EXPIRING } @default(WARMING),
   createdAt: DateTime @default(now()),
   tenant: Tenant @relation(link: Tenant.id),
   tenantId: UUID

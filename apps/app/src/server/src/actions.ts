@@ -1,5 +1,6 @@
 import { Domain, Sequence, Step, Reply, Tenant } from '@wasp/entities';
 import { getTriage } from './replyTriage';
+import { isWarmupReady, onWarmupReady } from './warmupReady';
 
 type WaspContext = {
   user: any;
@@ -86,6 +87,11 @@ export const createDomain = async (args: { domain: string }, context: WaspContex
     domain.spfStatus = dnsResults.spf;
     domain.dkimStatus = dnsResults.dkim;
     domain.dmarcStatus = dnsResults.dmarc;
+
+    if (isWarmupReady(dnsResults.spf, dnsResults.dkim, dnsResults.dmarc)) {
+      await onWarmupReady(domain.id, tenant.id, context.entities);
+      domain.status = 'WARMUP_READY' as any;
+    }
   }
 
   return domain;
