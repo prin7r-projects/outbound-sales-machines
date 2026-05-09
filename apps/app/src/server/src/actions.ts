@@ -113,10 +113,19 @@ export const updateDomain = async (
 
   if (!domain) throw new Error('Domain not found');
 
-  return await context.entities.Domain.update({
+  const updated = await context.entities.Domain.update({
     where: { id: args.id },
     data: args.data,
   });
+
+  if (
+    updated.tenantId &&
+    isWarmupReady(updated.spfStatus, updated.dkimStatus, updated.dmarcStatus)
+  ) {
+    await onWarmupReady(updated.id, updated.tenantId, context.entities);
+  }
+
+  return updated;
 };
 
 export const createSequence = async (
