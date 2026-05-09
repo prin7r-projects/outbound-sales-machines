@@ -16,3 +16,50 @@ services:
       - "traefik.http.routers.outbound-sales-machines.entrypoints=websecure"
       - "traefik.http.routers.outbound-sales-machines.tls.certresolver=letsencrypt"
       - "traefik.http.services.outbound-sales-machines.loadbalancer.server.port=3000"
+
+  app:
+    build:
+      context: .
+      dockerfile: apps/app/Dockerfile.app
+    image: saltrun-app:latest
+    container_name: saltrun-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgres://saltrun:saltrun@db:5432/saltrun
+      - WASP_WEB_CLIENT_URL=https://saltrun.prin7r-app.com
+      - WASP_SERVER_URL=https://saltrun.prin7r-app.com
+      - PORT=3001
+    expose:
+      - "3001"
+    depends_on:
+      db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.saltrun-app.rule=Host(`saltrun.prin7r-app.com`)"
+      - "traefik.http.routers.saltrun-app.entrypoints=websecure"
+      - "traefik.http.routers.saltrun-app.tls.certresolver=letsencrypt"
+      - "traefik.http.services.saltrun-app.loadbalancer.server.port=3001"
+
+  db:
+    image: postgres:16-alpine
+    container_name: saltrun-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=saltrun
+      - POSTGRES_PASSWORD=saltrun
+      - POSTGRES_DB=saltrun
+    expose:
+      - "5432"
+    volumes:
+      - saltrun-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saltrun -d saltrun"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  saltrun-db-data:
