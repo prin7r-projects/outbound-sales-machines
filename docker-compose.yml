@@ -41,6 +41,8 @@ services:
       - "traefik.http.routers.saltrun-app.rule=Host(`saltrun.prin7r-app.com`)"
       - "traefik.http.routers.saltrun-app.entrypoints=websecure"
       - "traefik.http.routers.saltrun-app.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.saltrun-app.middlewares=saltrun-app-strip-prefix"
+      - "traefik.http.middlewares.saltrun-app-strip-prefix.stripprefix.prefixes=/app"
       - "traefik.http.services.saltrun-app.loadbalancer.server.port=3001"
 
   db:
