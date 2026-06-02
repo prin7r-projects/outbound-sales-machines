@@ -5,6 +5,7 @@ node_modules
 
 # next
 .next
+.next.*
 out
 
 # env
@@ -23,3 +24,7 @@ Thumbs.db
 # build artifacts
 build
 dist
+
+# scripts
+scripts/.smoke-mobile-qa.json
+

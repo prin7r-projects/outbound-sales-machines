@@ -6,6 +6,9 @@ on:
       - "Dockerfile.landing"
       - "docker-compose.yml"
       - ".github/workflows/landing-build.yml"
+      - "scripts/**"
+      - "patches/**"
+      - ".gitignore"
   push:
     branches: [main]
     paths:
