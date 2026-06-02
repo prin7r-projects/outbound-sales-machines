@@ -102,7 +102,7 @@ The `.env` on the server lives at `/opt/prin7r-deploys/outbound-sales-machines/.
 
 See [`DESIGN.md`](DESIGN.md) for the full style guide. One-line summary:
 
-> Industrial blueprint aesthetic — graphite (#0E1014) + safety-orange (#F26B1F) + JetBrains Mono labels. Three-channel sequence engine treated as a directed graph, with reply-rate (not "pipeline") as the only ego.
+> Industrial blueprint aesthetic — black/white/neutral-gray on a milky canvas, JetBrains Mono labels on every instrument tag. Three-channel sequence engine treated as a directed graph, with reply-rate (not "pipeline") as the only ego.
 
 ## License
 

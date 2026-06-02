@@ -18,22 +18,24 @@ The visual identity is sourced from [`docs/01-brand-identity.md`](docs/01-brand-
 
 The landing is written for Mira and Theo. Voice is throughput-obsessed, instrumented, anti-fluff — operator-built, not marketing.
 
-**Wave 2 design refresh — archetype shift (2026-05-08).** The landing has been refreshed to an **Engineered Control Panel** archetype lifted from `revenue-grade-automation`. Substrate is now **light** (`graphite #FAFAF8` milky canvas, `plate #F5F5F5` recessed surface, `steel #FFFFFF` raised plate) — the page reads as a precise monochrome operating environment rather than a midnight CRT terminal. The frame language is preserved (persistent SYS ticker, ASCII bracket framing, hairline SVG linework in the sequence blueprint, monospaced dense rows in the reply triage stream) but rendered against a bright canvas, with `--hairline #E5E5E5` 1px rules instead of dark graphite separators. The single high-saturation accent has shifted from safety-orange to **electric violet** (`signal #5757F8`) — the same single-pigment role for primary CTAs, eyebrows, throughput-delta arrows, and the SYS pulse, but recoded for the control-panel canvas. Buttons gain a 1425.6px pill radius (per the reference). The tactical-telemetry posture (instrument-panel readout, drawing-sheet headers, blueprint connectors) remains intact — we kept the bones, swapped the surface and the pigment.
+**Wave 2 design refresh — archetype shift (2026-05-08).** The landing has been refreshed to an **Engineered Control Panel** archetype lifted from `revenue-grade-automation`. Substrate is **light** (`graphite #FAFAF8` milky canvas, `plate #F5F5F5` recessed surface, `steel #FFFFFF` raised plate) — the page reads as a precise monochrome operating environment rather than a midnight CRT terminal. The frame language is preserved (persistent SYS ticker, ASCII bracket framing, hairline SVG linework in the sequence blueprint, monospaced dense rows in the reply triage stream) but rendered against a bright canvas, with `--hairline #E5E5E5` 1px rules instead of dark graphite separators. The page reads as a single-ink operator control panel — no violet, no orange, no amber as CTA, border, badge, or chart emphasis. Buttons are square-edged (the 1425.6px pill radius introduced in the Wave 2 refresh was reverted per PRI-3523 because it conflicted with the industrial-blueprint reference). The tactical-telemetry posture (instrument-panel readout, drawing-sheet headers, blueprint connectors) remains intact — we kept the bones, swapped the surface, and collapsed the pigment.
+
+**Wave 2 design fix — palette locked to black/white/neutral-gray (PRI-3523, 2026-06-02).** The Wave 2 refresh's electric-violet accent (`signal #5757F8`) was judged to clash with the original graphite + safety-orange industrial-blueprint reference. The shipped landing has been retokenized to **black / white / neutral gray only** — the surface ramp (graphite/steel/plate/rivet), the ink ramp (bone/chalk/slate), and the hairline ramp remain. Every accent class (`signal`, `amber`, `verdigris`, `phosphor`, `hot`) now resolves to the same neutral ink (`#111111`) so the page reads as a single-pigment switchgear panel. Mono layout, hairlines, and the atmosphere stack (48px grid + scanline + noise grain) are preserved unchanged. NOWPayments crypto checkout (`Pay $490 in stablecoin` / `Book a managed run`) and the `mailto:ops@prin7r.com` contact path remain visible. The Reown / WalletConnect direct-wallet path is documented as a stub in `.env.example` (`NEXT_PUBLIC_REOWN_PROJECT_ID`) — not currently invoked from the landing CTAs.
 
 ## 2. Visual positioning
 
 A throughput readout dressed as an industrial control panel.
 
-- **Anchor reference points** — Klaviyo's confident brand (operator-credible), Bombora's tooling-first dryness, Mercury / Ramp's operator-not-founder voice, real industrial blueprints, the Linotype safety-orange / black palette of switchgear panels, the deliberate JetBrains-Mono-as-label tell that says "an SRE made this."
-- **Avoided reference points** — outbound-dashboard purple, aggressive sales-bro red, Apollo-style mint-and-violet, glassmorphism, generic "10x your pipeline" copy, fake testimonial carousels, gradient hero backgrounds.
-- **Felt sense** — opening a service-ledger binder on a mechanical workbench. Deep graphite background, a single safety-orange rule, JetBrains Mono labels on every instrument tag, the throughput readout as the hero. No glow effects, no gradients beyond the 4% grid tone.
-- **Anti-features in the visual identity** — gradients beyond the subtle grid, neon, glassmorphism, drop shadows beyond hairlines, stock photography of "diverse-team-pointing-at-laptop," emojis in product copy, "AI-powered" in the H1.
+- **Anchor reference points** — Klaviyo's confident brand (operator-credible), Bombora's tooling-first dryness, Mercury / Ramp's operator-not-founder voice, real industrial blueprints, single-ink switchgear panels (the deliberate JetBrains-Mono-as-label tell that says "an SRE made this").
+- **Avoided reference points** — outbound-dashboard purple, aggressive sales-bro red, Apollo-style mint-and-violet, glassmorphism, generic "10x your pipeline" copy, fake testimonial carousels, gradient hero backgrounds, every high-saturation accent (violet, orange, amber, mint) — the page reads as a single-ink operator panel.
+- **Felt sense** — opening a service-ledger binder on a mechanical workbench. Milky canvas, a single ink rule, JetBrains Mono labels on every instrument tag, the throughput readout as the hero. No glow effects, no gradients beyond the 4% grid tone, no saturated pigment.
+- **Anti-features in the visual identity** — gradients beyond the subtle grid, neon, glassmorphism, drop shadows beyond hairlines, every high-saturation accent (violet, orange, amber, mint), stock photography of "diverse-team-pointing-at-laptop," emojis in product copy, "AI-powered" in the H1.
 
 ## 3. ShadCN baseline and local component policy
 
 **Baseline.** This repo follows the Prin7r Component Library Baseline (ShadCN-first). Default base for any future SaaS surface in `apps/app/` is shadcn/ui — install via `pnpm dlx shadcn@latest add <component>`, vendor the source into the project so we own and review every primitive.
 
-**Current state — Wave 2 batch landing.** `apps/landing/` is intentionally hand-coded (no shadcn imports yet) because the industrial-blueprint aesthetic is carried by typography, hairlines, square-edged plates, and a tightly-disciplined two-color accent system (signal-orange + amber + verdigris) — every shadcn variant we would import would need to be re-skinned to remove its default rounded corners and soft shadows. The hand-rolled components below (`btn`, `plate`, `node`, `pulse-dot`, `frame-corners`) are all flat, square-edged, and one rule width.
+**Current state — Wave 2 batch landing.** `apps/landing/` is intentionally hand-coded (no shadcn imports yet) because the industrial-blueprint aesthetic is carried by typography, hairlines, square-edged plates, and a single-ink accent system (no violet, no orange, no amber as CTA, border, badge, or chart emphasis) — every shadcn variant we would import would need to be re-skinned to remove its default rounded corners and soft shadows. The hand-rolled components below (`btn`, `plate`, `node`, `pulse-dot`, `frame-corners`) are all flat, square-edged, and one rule width.
 
 **Documented exception.** Until `apps/app/` ships, the landing does NOT import from `@/components/ui` — there is no `components/ui` directory. Reviewers should expect the next pass (sequence builder, reply triage UI, deliverability dashboard) to introduce shadcn primitives (Button, Input, Dialog, Card, Tabs, Sheet, Toast) re-themed to the tokens in section 4.
 
@@ -41,7 +43,7 @@ A throughput readout dressed as an industrial control panel.
 
 ## 4. Color tokens
 
-Single source of truth: `apps/landing/tailwind.config.ts` and `apps/landing/app/globals.css`. Thirteen-token Engineered Control Panel palette; light canvas with one electric-violet accent (lifted 2026-05-08 from `revenue-grade-automation`). Token NAMES preserved from the v1 dark-canvas system to keep the existing 1368-line `page.tsx` rendering without structural rewrite — only VALUES are remapped from dark → light.
+Single source of truth: `apps/landing/tailwind.config.ts` and `apps/landing/app/globals.css`. Twelve-token Engineered Control Panel palette locked to **black / white / neutral gray only** per PRI-3523. The previous Wave 2 electric-violet direction was reverted because it conflicted with the original industrial-blueprint reference. Token NAMES are preserved (graphite, steel, bone, signal, chalk, slate, hairline, plate, amber, verdigris, phosphor, hot) so the existing 1300+ line `page.tsx` renders without structural rewrite — only the accent VALUES are collapsed to a single neutral ink (`#111111`). The structural distinction between `signal` / `amber` / `verdigris` / `hot` tones in the page is preserved by *class* but the rendered color is the same graphite ink.
 
 | Role | Token | Hex | Used for |
 |------|-------|-----|---------|
@@ -51,18 +53,18 @@ Single source of truth: `apps/landing/tailwind.config.ts` and `apps/landing/app/
 | Border (default) | `hairline` | `#E5E5E5` | 1px hairline borders, dotted connectors |
 | Border (bright) | `hairline-bright` | `#CCCCCC` | ASCII bracket frames, ruler ticks, telemetry cell dividers |
 | Border (deep) | `rivet` | `#EEEEEE` | Card inner edges, recessed plates |
-| Text (primary) | `bone` | `#202020` | Body type, primary headings — midnight ink |
-| Text (secondary) | `chalk` | `#333333` | Secondary body, muted prose — muted ash |
-| Text (tertiary) | `slate` | `#666666` | Captions, metadata, mono labels |
-| Accent (primary) | `signal` | `#5757F8` | Electric violet — every CTA, every accent rule, throughput-delta arrow. Single brand pigment. |
-| Accent (secondary) | `amber` | `#C77B00` | LinkedIn lane in the schematic, OBJECTION classify dot — retoned for light canvas |
-| Accent (tertiary) | `verdigris` | `#1F7A7A` | Voice lane in the schematic, restful contrast |
-| Accent (liveness) | `phosphor` | `#2EB04A` | **Reserved.** Used only for in-band liveness signals: the SYS-ticker pulse dot label, the LIVE telemetry tag, the triage-stream blinking cursor, the upward delta on the reply-rate cell. **Never** used as general body text or as a button background. |
-| Accent (alert) | `hot` | `#C8302A` | Hard-no replies in triage, error states |
+| Text (primary) | `bone` | `#111111` | Body type, primary headings — neutral ink |
+| Text (secondary) | `chalk` | `#3A3A3A` | Secondary body, muted prose — neutral ash |
+| Text (tertiary) | `slate` | `#6B6B6B` | Captions, metadata, mono labels |
+| Accent (primary) | `signal` | `#111111` | **Collapsed to ink.** Every CTA fill, every accent rule, every throughput-delta arrow, the placement-chart bars, the sparkline strokes. Single brand ink. No violet, no orange, no amber. |
+| Accent (secondary) | `amber` | `#111111` | LinkedIn lane in the schematic, OBJECTION classify dot — collapsed to ink per PRI-3523 |
+| Accent (tertiary) | `verdigris` | `#111111` | Voice lane in the schematic, restful contrast — collapsed to ink per PRI-3523 |
+| Accent (liveness) | `phosphor` | `#111111` | **Collapsed to ink.** Used only as a structural class for in-band liveness signals: the SYS-ticker pulse dot label, the LIVE telemetry tag, the triage-stream blinking cursor, the upward delta on the reply-rate cell. The class is preserved so the structural distinction survives; the rendered color is the same ink. |
+| Accent (alert) | `hot` | `#111111` | Hard-no replies in triage, error states — collapsed to ink per PRI-3523 |
 
-**Contrast.** Foreground/background pairs meet WCAG AA on the light canvas: bone (`#202020`) on graphite (`#FAFAF8`) ~16:1, chalk (`#333333`) on graphite ~12:1, slate (`#666666`) on graphite ~5.6:1, signal (`#5757F8`) on graphite ~4.9:1 (used at ≥14px / 500 weight), bone on steel (`#FFFFFF`) ~16:1.
+**Contrast.** Foreground/background pairs meet WCAG AA on the light canvas: bone (`#111111`) on graphite (`#FAFAF8`) ~18:1, chalk (`#3A3A3A`) on graphite ~10:1, slate (`#6B6B6B`) on graphite ~5.4:1, bone on steel (`#FFFFFF`) ~17:1.
 
-**Forbidden combinations.** `slate` on `plate` (too low contrast at small sizes), `signal` text on `amber` background, `hot` on `verdigris` (color-blind unfriendly), `phosphor` as primary text or button fill (it is a status pigment, not a copy pigment).
+**Forbidden combinations.** `slate` on `plate` (too low contrast at small sizes), every high-saturation accent (violet, orange, amber, mint, red) as CTA, border, badge, or chart emphasis — the page reads as a single-ink switchgear panel.
 
 **Atmosphere — three engineered layers (added in Wave 2 redesign).**
 
@@ -112,25 +114,25 @@ All components are local (in `apps/landing/app/page.tsx`) until shadcn primitive
 
 | Component | Where defined | Notes |
 |-----------|---------------|-------|
-| `Logo` | `page.tsx` Masthead | Inline SVG of a 6-point line graph in safety-orange + Space Grotesk wordmark + JetBrains Mono subtitle. The brand's signature. |
-| `.btn` | `globals.css` | Square-edged, signal-orange fill, JetBrains Mono uppercase 12.5px. Hover lightens to `#ff7d35`. Focus ring is 2px signal-orange offset 3px (always visible). |
+| `Logo` | `page.tsx` Masthead | Inline SVG of a 6-point line graph in neutral ink + Space Grotesk wordmark + JetBrains Mono subtitle. The brand's signature. |
+| `.btn` | `globals.css` | Square-edged, neutral-ink fill, Inter 14px / 500. Hover deepens to `#000`. Focus ring is 2px ink offset 3px (always visible). |
 | `.btn-ghost` | `globals.css` | Transparent + hairline border, bone text. Hover swaps to steel background + bone border. Used as secondary CTA. |
 | `.btn-secondary` | `globals.css` | Steel fill + hairline border. Used for non-highlighted pricing tier CTAs. |
 | `Readout` | `page.tsx` Hero | Display Bold 40-44px numeral + JetBrains Mono label below + optional chalk italic sub. The hero's instrument-panel readout. |
 | `SectionHeader` | `page.tsx` | Mono kicker + signal eyebrow + 1px hairline rule + display 36-52px title + 2px signal under-rule. |
 | `.plate` | `globals.css` | Steel fill + hairline border. The default raised surface. |
 | `.plate-2` | `globals.css` | Plate fill + hairline border. The recessed surface (used for nested code/schematic panels). |
-| `.frame-corners` | `globals.css` | L-shaped 14px signal-orange corners at top-left and bottom-right. Used to mark "instrument panel" plates (Hero readout, Schematic). |
-| `Node` (`.node`) | `page.tsx` + `globals.css` | Schematic block: graphite fill, hairline border, 4 rivet dots in corners. Tone variants: signal / amber / verdigris / ghost. |
+| `.frame-corners` | `globals.css` | L-shaped 14px ink corners at top-left and bottom-right. Used to mark "instrument panel" plates (Hero readout, Schematic). |
+| `Node` (`.node`) | `page.tsx` + `globals.css` | Schematic block: steel fill, ink border, 4 rivet dots in corners. Tone variants: signal / amber / verdigris / ghost — every variant resolves to ink so the page reads as a single-pigment panel. |
 | `BlueprintRow` | `page.tsx` | Stage row: left-aligned stage label, right-aligned spec label, then a row of nodes. |
 | `Connector` (`.conn-v`) | `page.tsx` + `globals.css` | 1.5px dashed vertical line in hairline. Used between schematic stages. |
-| `pulse-dot` | `globals.css` | 8×8 signal-orange square with a 1.8s pulse-ring around it. Only persistent animation on the page. |
-| `label` | `globals.css` | JetBrains Mono 10.5px, 0.18em tracking, uppercase. Variants: `--signal` (orange), `--bone` (light), default (slate). |
+| `pulse-dot` | `globals.css` | 8×8 ink square with a 1.8s pulse-ring around it. Only persistent animation on the page. |
+| `label` | `globals.css` | JetBrains Mono 10.5px, 0.18em tracking, uppercase. Variants: `--signal` (ink), `--bone` (ink), `--phosphor` (ink), default (slate). |
 | `TriageCard` | `page.tsx` | Plate with a label header, an inset plate-2 email-mock panel, and a 2-row classify/action grid. The reply-triage demo. |
 | `PricingCta` | `app/pricing-cta.tsx` (client) | NOWPayments hosted-invoice trigger. POSTs to `/api/checkout/nowpayments`, redirects on success, surfaces a fallback message + mailto if 503/upstream error. |
-| `Pricing tier card` | `page.tsx` | Plate with label + 40px Bold price + JetBrains Mono cadence + 2px signal rule + bullet list + full-width CTA at bottom. Highlighted tier swaps to signal border. |
+| `Pricing tier card` | `page.tsx` | Plate with label + 40px Bold price + JetBrains Mono cadence + 2px ink rule + bullet list + full-width CTA at bottom. Highlighted tier swaps to ink border. |
 
-**Accessibility for each.** Buttons inherit native focus ring (always visible at 2px signal offset 3px); the masthead `Logo` carries `aria-label="Saltrun"`; SVG icons (`Arrow`, `Logo`) use `aria-hidden`; nav anchors are real `<a>` elements via `next/link`. Keyboard tab order: hero CTAs → masthead nav → channel matrix CTAs → pricing CTAs → footer links.
+**Accessibility for each.** Buttons inherit native focus ring (always visible at 2px ink offset 3px); the masthead `Logo` carries `aria-label="Saltrun"`; SVG icons (`Arrow`, `Logo`) use `aria-hidden`; nav anchors are real `<a>` elements via `next/link`. Keyboard tab order: hero CTAs → masthead nav → channel matrix CTAs → pricing CTAs → footer links.
 
 ## 9. Landing page structure
 

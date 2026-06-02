@@ -93,13 +93,13 @@ function Logo() {
   return (
     <Link href="/" aria-label="Saltrun" className="inline-flex items-center gap-3">
       <svg width="36" height="22" viewBox="0 0 36 22" aria-hidden>
-        <path d="M2 18 L9 11 L15 15 L21 6 L26 10 L34 4" stroke="#F26B1F" strokeWidth="1.8" fill="none" strokeLinecap="square" />
-        <circle cx="2" cy="18" r="1.5" fill="#F26B1F" />
-        <circle cx="9" cy="11" r="1.5" fill="#F26B1F" />
-        <circle cx="15" cy="15" r="1.5" fill="#F26B1F" />
-        <circle cx="21" cy="6" r="1.5" fill="#F26B1F" />
-        <circle cx="26" cy="10" r="1.5" fill="#F26B1F" />
-        <circle cx="34" cy="4" r="1.5" fill="#F26B1F" />
+        <path d="M2 18 L9 11 L15 15 L21 6 L26 10 L34 4" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="square" />
+        <circle cx="2" cy="18" r="1.5" fill="currentColor" />
+        <circle cx="9" cy="11" r="1.5" fill="currentColor" />
+        <circle cx="15" cy="15" r="1.5" fill="currentColor" />
+        <circle cx="21" cy="6" r="1.5" fill="currentColor" />
+        <circle cx="26" cy="10" r="1.5" fill="currentColor" />
+        <circle cx="34" cy="4" r="1.5" fill="currentColor" />
       </svg>
       <span className="font-display font-bold tracking-tight text-[20px] leading-none">
         Saltrun
@@ -877,8 +877,8 @@ function PlacementChart() {
         <div key={b.day} className="flex flex-col h-full justify-end relative z-10">
           <div className="font-mono text-[10px] text-bone mb-1 tnum">{b.v}</div>
           <div
-            className="bg-signal w-full"
-            style={{ height: `${(b.v - 88) * 6}%`, boxShadow: "0 0 14px -3px rgba(242,107,31,0.45)" }}
+            className="bg-bone w-full"
+            style={{ height: `${(b.v - 88) * 6}%` }}
             aria-label={`${b.day}: ${b.v}% inbox placement`}
           />
           <div className="label text-[9px] mt-2">{b.day}</div>

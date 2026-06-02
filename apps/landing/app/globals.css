@@ -5,18 +5,28 @@
 @tailwind utilities;
 
 /*
- * Saltrun — Wave 2 design refresh 2026-05-08
- * Reference: revenue-grade-automation (Engineered Control Panel)
- * Theme: light · precise monochrome with focused electric violet accent
- * Token names preserved for page-level continuity; values inverted
- * dark → light per reference. No beige (per user rule); milky #FAFAF8
- * canvas instead of pure white. Industrial blueprint structure
- * (telemetry ribbon, schematic, brackets, ticker) is retained — only
- * the canvas, ink, and accent are swapped.
+ * Saltrun — Wave 2 design fix (PRI-3523, 2026-06-02)
+ *
+ * Palette retokenized to **black / white / neutral gray only**. The Wave 2
+ * refresh introduced an electric-violet accent (`signal #5757F8`) lifted
+ * from `revenue-grade-automation`; that direction was judged to clash
+ * with the industrial-blueprint reference (graphite + safety-orange) and
+ * was reverted. The shipped page now reads as a single-ink operator
+ * control panel on a milky canvas — no violet, no orange, no amber as
+ * CTA, border, badge, or chart emphasis. Mono layout, hairlines, and
+ * the existing atmosphere stack (48px grid + scanline + noise grain)
+ * are preserved unchanged.
+ *
+ * Token NAMES are preserved (graphite, steel, bone, signal, chalk, slate,
+ * hairline, plate, amber, verdigris, phosphor, hot) so the existing
+ * 1300+ line page.tsx keeps rendering without a structural rewrite —
+ * only the VALUES are remapped to neutral ink. The structural distinction
+ * between signal / amber / verdigris / hot tones in the page is preserved
+ * by *class* but the rendered color is the same graphite ink.
  */
 :root {
   /* Surfaces — light engineered control panel */
-  --graphite: #FAFAF8;        /* page canvas (was deep near-black) */
+  --graphite: #FAFAF8;        /* page canvas (milky, no beige) */
   --steel: #FFFFFF;           /* raised plate / card surface */
   --rivet: #EEEEEE;           /* recessed plate inner */
   --plate: #F5F5F5;           /* deepest recessed surface (cloud canvas) */
@@ -25,24 +35,27 @@
   --hairline: #E5E5E5;        /* default 1px hairline */
   --hairline-bright: #CCCCCC; /* bracket frames, ruler ticks */
 
-  /* Ink */
-  --bone: #202020;            /* primary text (midnight ink) */
-  --chalk: #333333;            /* secondary text (muted ash) */
-  --slate: #666666;            /* tertiary text / labels */
+  /* Ink — neutral gray ramp */
+  --bone: #111111;            /* primary text — ink */
+  --chalk: #3A3A3A;           /* secondary text — ash */
+  --slate: #6B6B6B;           /* tertiary text / labels */
 
-  /* Accent — electric violet, the single brand pigment */
-  --signal: #5757F8;
-  --signal-glow: rgba(87, 87, 248, 0.45);
+  /* Accent — collapsed to a single neutral ink. No violet, no orange,
+     no amber. The class names are preserved so the existing page
+     structure (node--signal, node--amber, node--verdigris, etc.) keeps
+     rendering — but every accent hex value resolves to the same ink. */
+  --signal: #111111;
+  --signal-glow: rgba(17, 17, 17, 0.18);
 
-  /* Semantic accents (retained roles, retoned for light canvas) */
-  --amber: #C77B00;          /* LinkedIn lane / warning */
-  --verdigris: #1F7A7A;      /* voice lane / restful contrast */
-  --phosphor: #2EB04A;       /* liveness pulse (only) */
-  --hot: #C8302A;            /* hard-no / error */
+  /* Semantic accents (collapsed to ink per PRI-3523) */
+  --amber: #111111;
+  --verdigris: #111111;
+  --phosphor: #111111;
+  --hot: #111111;
 
-  /* Grid tones — dark strokes on light bg, much softer */
-  --grid-tone: rgba(32, 32, 32, 0.04);
-  --grid-tone-strong: rgba(32, 32, 32, 0.08);
+  /* Grid tones — dark strokes on light bg */
+  --grid-tone: rgba(17, 17, 17, 0.04);
+  --grid-tone-strong: rgba(17, 17, 17, 0.08);
 }
 
 html, body {
@@ -94,7 +107,7 @@ body::after {
 
 /* Selection */
 ::selection {
-  background: var(--signal);
+  background: var(--bone);
   color: var(--steel);
 }
 
@@ -121,55 +134,57 @@ body::after {
 /* Hairline rule */
 .hr-thin { border-top: 1px solid rgba(32, 32, 32, 0.08); }
 
-/* Buttons — pill-shaped (1425.6px radius) per revenue-grade-automation reference */
+/* Buttons — square-edged (industrial-blueprint). The Wave 2 refresh's
+   1425.6px pill radius is reverted per PRI-3523. Buttons are filled
+   with neutral ink (no violet/orange/amber). */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 10px 22px;
-  background: var(--signal);
+  background: var(--bone);
   color: var(--steel);
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   letter-spacing: 0.02em;
   text-transform: none;
   font-weight: 500;
-  border-radius: 1425.6px;
+  border-radius: 0px;
   position: relative;
   transition: background 200ms cubic-bezier(0.2, 0.6, 0.2, 1), transform 200ms cubic-bezier(0.2, 0.6, 0.2, 1), box-shadow 200ms ease;
-  box-shadow: 0 0 0 0 var(--signal-glow), inset 0 0 0 1px rgba(0,0,0,0.04);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
 }
 
-.btn:hover { background: #4646e8; box-shadow: 0 0 22px -4px var(--signal-glow), inset 0 0 0 1px rgba(0,0,0,0.04); }
+.btn:hover { background: #000; }
 .btn:active { transform: translateY(1px); }
-.btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.btn:focus-visible { outline: 2px solid var(--bone); outline-offset: 3px; }
 
 .btn-ghost {
   background: var(--steel);
   color: var(--bone);
   border: 1px solid var(--hairline-bright);
-  border-radius: 1425.6px;
+  border-radius: 0px;
   box-shadow: none;
 }
-.btn-ghost:hover { background: var(--plate); border-color: var(--bone); box-shadow: inset 0 0 0 1px rgba(32, 32, 32, 0.05); }
+.btn-ghost:hover { background: var(--plate); border-color: var(--bone); box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.05); }
 
 .btn-secondary {
   background: var(--bone);
   color: var(--steel);
   border: 1px solid var(--bone);
-  border-radius: 1425.6px;
+  border-radius: 0px;
   box-shadow: none;
 }
 .btn-secondary:hover { background: #000; }
 
 /* Anchor underline-on-hover */
 a.signal {
-  color: var(--signal);
+  color: var(--bone);
   text-decoration: none;
   border-bottom: 1px dashed transparent;
   transition: border-color 200ms ease;
 }
-a.signal:hover { border-bottom-color: var(--signal); }
+a.signal:hover { border-bottom-color: var(--bone); }
 
 /* Frame — borders that read as engineered plates on light canvas */
 .plate {
@@ -182,7 +197,7 @@ a.signal:hover { border-bottom-color: var(--signal); }
   border: 1px solid var(--hairline);
 }
 
-/* ASCII / blueprint corner frame — retained */
+/* ASCII / blueprint corner frame — neutral ink per PRI-3523 */
 .frame-corners {
   position: relative;
 }
@@ -192,7 +207,7 @@ a.signal:hover { border-bottom-color: var(--signal); }
   position: absolute;
   width: 14px;
   height: 14px;
-  border-color: var(--signal);
+  border-color: var(--bone);
   border-style: solid;
 }
 .frame-corners::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
@@ -214,25 +229,25 @@ a.signal:hover { border-bottom-color: var(--signal); }
 .brackets-4 > .br.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
 .brackets-4 > .br.bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
 .brackets-4 > .br.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
-.brackets-4--signal > .br { border-color: var(--signal); }
+.brackets-4--signal > .br { border-color: var(--bone); }
 
-/* Pulse dot — kept, retoned */
+/* Pulse dot — square, neutral ink. The Wave 2 refresh made the dot
+   violet; per PRI-3523 the dot is reverted to a square ink mark. */
 .pulse-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: var(--signal);
+  background: var(--bone);
   position: relative;
-  box-shadow: 0 0 10px 0 var(--signal-glow);
-  border-radius: 9999px;
+  border-radius: 0;
 }
 .pulse-dot::after {
   content: "";
   position: absolute;
   inset: -4px;
-  border: 1px solid var(--signal);
+  border: 1px solid var(--bone);
   opacity: 0.5;
-  border-radius: 9999px;
+  border-radius: 0;
   animation: pulse-ring 1.8s ease-out infinite;
 }
 
@@ -265,20 +280,23 @@ a.signal:hover { border-bottom-color: var(--signal); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Sequence node — retained, retoned */
+/* Sequence node — all accent tones collapse to ink per PRI-3523.
+   The class names are preserved so the page structure keeps working,
+   but every node renders with the same neutral border. The "ghost"
+   variant stays lighter to preserve depth cues in the schematic. */
 .node {
   position: relative;
   background: var(--steel);
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--bone);
   padding: 14px 16px;
   font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
   font-size: 12px;
   color: var(--bone);
   text-align: left;
 }
-.node--signal { border-color: var(--signal); box-shadow: inset 0 0 0 1px rgba(87, 87, 248, 0.06); }
-.node--amber { border-color: var(--amber); }
-.node--verdigris { border-color: var(--verdigris); }
+.node--signal { border-color: var(--bone); }
+.node--amber { border-color: var(--bone); }
+.node--verdigris { border-color: var(--bone); }
 .node--ghost { border-color: var(--hairline); color: var(--slate); }
 
 .node__rivet {
@@ -326,13 +344,14 @@ a.signal:hover { border-bottom-color: var(--signal); }
   .telemetry__cell:last-child { border-bottom: 0; }
 }
 
-/* Sparkline */
+/* Sparkline — neutral ink. The previous Wave 2 lift used `signal`
+   (electric violet) here; per PRI-3523 the spark reads in ink. */
 .spark {
   display: block;
   width: 100%;
   height: 26px;
   margin-top: 10px;
-  color: var(--signal);
+  color: var(--bone);
 }
 
 /* Crosshair marker */
@@ -351,17 +370,19 @@ a.signal:hover { border-bottom-color: var(--signal); }
 .crosshair::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
 .crosshair::after  { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
 
-/* CRT row hover for triage list — light variant */
+/* CRT row hover for triage list — light variant (neutral ink hover) */
 .crt-row {
   position: relative;
   transition: background 160ms ease;
 }
 .crt-row:hover {
-  background: rgba(87, 87, 248, 0.04);
+  background: rgba(17, 17, 17, 0.04);
 }
 
-/* Subtle glow on signal text — minimized for light canvas */
-.glow-signal { text-shadow: 0 0 14px rgba(87, 87, 248, 0.18); }
+/* Subtle glow on signal text — removed per PRI-3523. The previous
+   lift used an electric-violet text-shadow; the page now reads in
+   plain ink without any pigment glow. */
+.glow-signal { text-shadow: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
