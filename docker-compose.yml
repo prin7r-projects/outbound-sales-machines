@@ -7,7 +7,8 @@ services:
     container_name: saltrun-landing
     restart: unless-stopped
     env_file:
-      - .env
+      - path: .env
+        required: false
     expose:
       - "3000"
     labels:
@@ -25,7 +26,8 @@ services:
     container_name: saltrun-app
     restart: unless-stopped
     env_file:
-      - .env
+      - path: .env
+        required: false
     environment:
       - DATABASE_URL=postgres://saltrun:saltrun@db:5432/saltrun
       - WASP_WEB_CLIENT_URL=https://saltrun.prin7r-app.com
