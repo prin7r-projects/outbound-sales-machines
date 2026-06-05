@@ -1,0 +1,31 @@
+{
+  "capturedAt": "2026-06-05T08:30:40.678Z",
+  "base": "http://127.0.0.1:3118",
+  "results": [
+    {
+      "url": "http://127.0.0.1:3118/prelaunch",
+      "status": 200,
+      "out": "docs/screenshots/pri5485/prelaunch.png"
+    },
+    {
+      "url": "http://127.0.0.1:3118/app",
+      "status": 200,
+      "out": "docs/screenshots/pri5485/app-rewrite.png"
+    },
+    {
+      "url": "http://127.0.0.1:3118/dashboard",
+      "status": 200,
+      "out": "docs/screenshots/pri5485/dashboard-rewrite.png"
+    },
+    {
+      "url": "http://127.0.0.1:3118/checkout",
+      "status": 200,
+      "out": "docs/screenshots/pri5485/checkout-rewrite.png"
+    },
+    {
+      "url": "http://127.0.0.1:3118/prelaunch",
+      "status": 200,
+      "out": "docs/screenshots/pri5485/prelaunch-mobile.png"
+    }
+  ]
+}
